@@ -15,15 +15,15 @@ import java.util.List;
 import java.util.Random;
 
 public class InteractiveBackground extends View {
+    private final int maxBalls = 20;
     private List<MiscBall> balls;
     private Boolean pressed;
     private Point pressedAt;
     private Point canvasDims;
-    // private final int maxBalls = 50;
-    private Point[] directions;
+    private double[][] directions;
     private int directionIndex;
     private int wrapDirectionIndex;
-    private final int spawnRate = 3;
+    private final int spawnRate = 2;
     private int spawnCount;
 
 
@@ -42,15 +42,37 @@ public class InteractiveBackground extends View {
     private void populateDirections () {
         directionIndex = 0;
         int arrayIndex = 0;
-        directions = new Point[8];
-        wrapDirectionIndex = 7; // TODO: Add more directions in (need to RF to use double[] or similar)
-        for (int i = -1; i < 2; i++)
-            for (int j = -1; j < 2; j++) {
-            if (i == 0 && j == 0) continue;
-                Point direction = new Point(i, j);
+        directions = new double[21][2];
+        wrapDirectionIndex = 20;
+
+        // TODO: Fix directions -> radiate out from (0,1) back to (0,1)
+        for (int i = 0; i < 11; i++) {
+            double[] direction = new double[2];
+            direction[1] = 1 - (i * 0.2);
+            direction[0] = i < 6 ? 0.2 * i : 1 - (i * 0.2);
+            directions[arrayIndex] = direction;
+            arrayIndex++;
+        }
+
+        for (int i = 0; i < 10; i++) {
+            double[] direction = new double[2];
+            direction[1] = -1 + (i * 0.2);
+            direction[0] = i < 6 ? -0.2 * i : -1 + (i * 0.2);
+            directions[arrayIndex] = direction;
+            arrayIndex++;
+        }
+
+        /*
+        for (double y = -1; y < 2; y++)
+            for (double x = -1; x < 2; x++) {
+            if (x == 0 && y == 0) continue;
+                double[] direction = new double[2];
+                direction[0] = x;
+                direction[1] = y;
                 directions[arrayIndex] = direction;
                 arrayIndex++;
             }
+        */
     }
 
     @Override
@@ -76,6 +98,7 @@ public class InteractiveBackground extends View {
 
     private void spawnBall () {
         if (spawnCount != spawnRate) return;
+        if (maxBalls == balls.size()) balls.remove(0);
         MiscBall newBall = new MiscBall(pressedAt, directions[directionIndex], canvasDims);
         balls.add(newBall);
         directionIndex = directionIndex != wrapDirectionIndex ? directionIndex + 1 : 0;
@@ -109,22 +132,24 @@ public class InteractiveBackground extends View {
         return pressed;
     }
 
+    // TODO: RF Collision math into an abstract class to inherit from
     private class MiscBall {
         private Paint ballColour = new Paint(Color.YELLOW);
+        private Boolean accelerationEnabled = false;
         private double accelerationRate = 1.1;
-        private final int accelerationThresh = 10;
+        private final int accelerationThresh = 15; // was 1-
         private final int maxSpeed = 50;
         private int drawn;
         private Boolean dead = false;
         private final int bouncesTillDeath;
         private int currentBounces;
         private Point location;
-        private Point direction;
+        private double[] direction;
         private Point bounds;
         private double speed;
         private int radius;
 
-        public MiscBall (Point spawnLoc, Point direction, Point bounds) {
+        public MiscBall (Point spawnLoc, double[] direction, Point bounds) {
             this.location = spawnLoc;
             this.bounds = bounds;
             this.bouncesTillDeath =  5;
@@ -145,7 +170,7 @@ public class InteractiveBackground extends View {
             Log.d("[draw]", "location x: " + Integer.toString(location.x) + " y: " + Integer.toString(location.y));
             canvas.drawCircle(location.x, location.y, radius, ballColour);
             drawn++;
-            if (drawn == accelerationThresh && speed < maxSpeed) {
+            if (drawn == accelerationThresh && speed < maxSpeed && accelerationEnabled) {
                 drawn = 0;
                 speed = speed * accelerationRate;
             }
@@ -153,30 +178,63 @@ public class InteractiveBackground extends View {
         }
 
         private void getNewPos () {
-            // TODO: Increment bounces on collision with wall - change dead to true when maxBounces is reached
             // TODO: Don't create a new point for working out new location
-            // TODO: Implement bounds checking
-            // TODO: Implement rebounds when hitting bounds
-            // TODO: Implement acceleration increasing every X amount of calls to this method
+            // TODO: Create collision with other balls method
             Point newLocation = new Point();
-            if (location.x == 0) { direction.x = 1; currentBounces++; }
-            if (location.y == 0) { direction.y = 1; currentBounces++; }
-            if (location.x == bounds.x) direction.x = -1;
-            if (location.y == bounds.y) direction.y = -1;
-            newLocation.x = location.x + direction.x * (int) speed;
-            newLocation.y = location.y + direction.y * (int) speed;
+            if (location.x == 0) { direction[0] = -direction[0]; currentBounces++; }
+            if (location.y == 0) { direction[1] = -direction[1]; currentBounces++; }
+            if (location.x == bounds.x) direction[0] = -1;
+            if (location.y == bounds.y) direction[1] = -1;
+            newLocation.x = location.x + (int) (direction[0] * speed);
+            newLocation.y = location.y + (int) (direction[1] * speed);
             if (newLocation.x < 0) newLocation.x = 0;
             if (newLocation.y < 0) newLocation.y = 0;
             if (newLocation.x > bounds.x) { newLocation.x = bounds.x; currentBounces++; }
             if (newLocation.y > bounds.y) { newLocation.y = bounds.y; currentBounces++; }
-            if (currentBounces == bouncesTillDeath) dead = true;
+            if (currentBounces >= bouncesTillDeath) dead = true;
             location = newLocation;
+        }
+
+        public void collision (MiscBall mb) {
+            if (!overlap(mb)) return;
+            // TODO: CollidedWith property -> might solve 3 way collisions
+            int distance = getDistance(mb);
+            // if (checkOverlap(distance, mb.getRadius())) // TODO: Implement setting balls touching before a frame before bouncing -> pythag
+            // TODO: Work out new direction vector, then set the balls to be touching
+
+        }
+
+        // checks if two balls overlapping -> getDistance can get the distance param
+        private boolean checkOverlap (int distance, int secondRadius) {
+            return distance < radius + secondRadius;
+        }
+
+        // checks the distance between two balls
+        private int getDistance(MiscBall mb) {
+            Point mbLoc = mb.getLocation();
+            return (int) Math.sqrt(
+                    (Math.pow((mbLoc.x - location.x),2) + Math.pow((mbLoc.y - location.y),2))
+            );
+        }
+
+        // checks to see if two balls are currently colliding
+        private boolean overlap (MiscBall mb) {
+            Point mbLoc = mb.getLocation();
+            int mbRad = mb.getRadius();
+            return Math.pow((mbLoc.x - location.x), 2) + Math.pow((mbLoc.y - location.y), 2) <= Math.pow((mbRad - radius), 2);
+        }
+
+        public Point getLocation () {
+            return location;
+        }
+
+        public int getRadius () {
+            return radius;
         }
 
         private Boolean isDead () {
             return dead;
         }
-
     }
 
 }
