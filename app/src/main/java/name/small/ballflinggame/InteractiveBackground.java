@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -22,15 +23,19 @@ public class InteractiveBackground extends View {
     private Point[] directions;
     private int directionIndex;
     private int wrapDirectionIndex;
+    private final int spawnRate = 3;
+    private int spawnCount;
 
 
     public InteractiveBackground (Context c) {
         super(c);
         populateDirections();
         balls = new ArrayList<>();
+        pressedAt = new Point();
         pressed = false;
         DisplayMetrics metrics = c.getResources().getDisplayMetrics();
         this.canvasDims = new Point(metrics.widthPixels, metrics.heightPixels);
+        spawnCount = spawnRate - 1;
     }
 
     // create a direction array holding (-1, -1) to (1, 1)
@@ -50,8 +55,9 @@ public class InteractiveBackground extends View {
 
     @Override
     public void onDraw (Canvas canvas) {
+        // Log.d("[OnDraw]", Boolean.toString(pressed));
+        if (pressed) { spawnCount++; spawnBall(); }
         if (balls.size() == 0) return;
-        if (pressed) spawnBall();
         try {
             for (MiscBall b : balls) {
                 if (b.isDead()) {
@@ -62,29 +68,38 @@ public class InteractiveBackground extends View {
                 }
                 b.draw(canvas);
             }
+            invalidate();
         } catch (Exception e) {
-
+            invalidate();
         }
     }
 
     private void spawnBall () {
-        if (pressedAt == null) return; // Don't need this but saftey first
+        if (spawnCount != spawnRate) return;
         MiscBall newBall = new MiscBall(pressedAt, directions[directionIndex], canvasDims);
         balls.add(newBall);
-        directionIndex = directionIndex != wrapDirectionIndex ? directionIndex++ : 0;
+        directionIndex = directionIndex != wrapDirectionIndex ? directionIndex + 1 : 0;
+        spawnCount = 0;
+        invalidate();
     }
 
     // TODO: Fix this to be the proper on touch method
     @Override
-    public Boolean onTouch (View v, MotionEvent event) {
+    public boolean onTouchEvent (MotionEvent event) {
+        Log.d("[OnTouch]", "Screen touched");
         //int action = event.getAction();
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 pressed = true;
+                pressedAt.x = (int) event.getX();
+                pressedAt.y = (int) event.getY();
+                Log.d("[OnTouch]", "x: " + Integer.toString(pressedAt.x) + " y: " + Integer.toString(pressedAt.y));
+                invalidate();
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                // User is moving around on the screen
+                pressedAt.x = (int) event.getX();
+                pressedAt.y = (int) event.getY();
                 break;
 
             case MotionEvent.ACTION_UP:
@@ -96,7 +111,10 @@ public class InteractiveBackground extends View {
 
     private class MiscBall {
         private Paint ballColour = new Paint(Color.YELLOW);
-        private double accelerationRate = 1.2;
+        private double accelerationRate = 1.1;
+        private final int accelerationThresh = 10;
+        private final int maxSpeed = 50;
+        private int drawn;
         private Boolean dead = false;
         private final int bouncesTillDeath;
         private int currentBounces;
@@ -112,18 +130,25 @@ public class InteractiveBackground extends View {
             this.bouncesTillDeath =  5;
             this.direction = direction;
             Random rand = new Random();
-            this.radius = 8 + rand.nextInt(9);
+            this.radius = 20 + rand.nextInt(9);
             this.currentBounces = 0;
+            this.drawn = 0;
 
-            if (rand.nextInt(3) == 0) {
-                speed = 25 + rand.nextInt(50);
-                accelerationRate = 2;
+            if (rand.nextInt(8) == 0) {
+                speed = 20 + rand.nextInt(25);
+                accelerationRate = 1.2;
             } else
-                this.speed = 20 + rand.nextInt(15);
+                this.speed = 20 + rand.nextInt(10);
         }
 
         public void draw (Canvas canvas) {
+            Log.d("[draw]", "location x: " + Integer.toString(location.x) + " y: " + Integer.toString(location.y));
             canvas.drawCircle(location.x, location.y, radius, ballColour);
+            drawn++;
+            if (drawn == accelerationThresh && speed < maxSpeed) {
+                drawn = 0;
+                speed = speed * accelerationRate;
+            }
             getNewPos();
         }
 
@@ -134,9 +159,17 @@ public class InteractiveBackground extends View {
             // TODO: Implement rebounds when hitting bounds
             // TODO: Implement acceleration increasing every X amount of calls to this method
             Point newLocation = new Point();
-            speed = (int) speed * accelerationRate;
-            newLocation.x = location.x * direction.x * (int) speed;
-            newLocation.y = location.y * direction.y * (int) speed;
+            if (location.x == 0) { direction.x = 1; currentBounces++; }
+            if (location.y == 0) { direction.y = 1; currentBounces++; }
+            if (location.x == bounds.x) direction.x = -1;
+            if (location.y == bounds.y) direction.y = -1;
+            newLocation.x = location.x + direction.x * (int) speed;
+            newLocation.y = location.y + direction.y * (int) speed;
+            if (newLocation.x < 0) newLocation.x = 0;
+            if (newLocation.y < 0) newLocation.y = 0;
+            if (newLocation.x > bounds.x) { newLocation.x = bounds.x; currentBounces++; }
+            if (newLocation.y > bounds.y) { newLocation.y = bounds.y; currentBounces++; }
+            if (currentBounces == bouncesTillDeath) dead = true;
             location = newLocation;
         }
 
