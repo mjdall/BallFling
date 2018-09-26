@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeScreen">
+    tools:context=".HomeScreen"
+    tools:layout_editor_absoluteY="25dp">
 
     <name.small.ballflinggame.InteractiveBackground
         android:id="@+id/interactiveBackground"
@@ -15,62 +16,37 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
         android:text="@string/title"
         android:textColor="@android:color/black"
         android:textSize="50sp"
         android:typeface="monospace"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/interactiveBackground" />
+        tools:layout_editor_absoluteY="32dp" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="0dp"
+        android:layout_width="262dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="61dp"
-        android:layout_marginLeft="61dp"
-        android:layout_marginRight="61dp"
-        android:layout_marginStart="61dp"
-        android:layout_marginTop="32dp"
         android:text="@string/exit_Game"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        tools:layout_editor_absoluteX="61dp"
+        tools:layout_editor_absoluteY="346dp" />
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="0dp"
+        android:layout_width="262dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="61dp"
-        android:layout_marginLeft="61dp"
-        android:layout_marginRight="61dp"
-        android:layout_marginStart="61dp"
-        android:layout_marginTop="32dp"
         android:text="@string/high_scores"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        tools:layout_editor_absoluteX="61dp"
+        tools:layout_editor_absoluteY="266dp" />
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="0dp"
+        android:layout_width="262dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="61dp"
-        android:layout_marginLeft="61dp"
-        android:layout_marginRight="61dp"
-        android:layout_marginStart="61dp"
-        android:layout_marginTop="28dp"
         android:text="@string/play_game"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        tools:layout_editor_absoluteX="61dp"
+        tools:layout_editor_absoluteY="186dp" />
 
 </android.support.constraint.ConstraintLayout>
