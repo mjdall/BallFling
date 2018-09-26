@@ -4,4 +4,11 @@
     <string name="play_game">Play Game</string>
     <string name="exit_Game">Exit</string>
     <string name="high_scores">High Scores</string>
+    <string name="highscores_title">HighScores</string>
+    <string name="score_1" />
+    <string name="score_2" />
+    <string name="score_3" />
+    <string name="score_5" />
+    <string name="score_4" />
+    <string name="return_hs">Return</string>
 </resources>
