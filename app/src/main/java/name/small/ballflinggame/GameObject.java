@@ -5,8 +5,8 @@ import android.graphics.Canvas;
 
 public abstract class GameObject {
 
-    private double xPos;
-    private double yPos;
+    protected double xPos;
+    protected double yPos;
 
     public GameObject(double xPos, double yPos) {
         this.xPos = xPos;
