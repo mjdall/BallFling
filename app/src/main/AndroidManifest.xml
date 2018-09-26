@@ -20,8 +20,7 @@
             android:name=".GameActiviy"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_game_activiy"
-            android:theme="@style/FullscreenTheme">
-        </activity>
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>
