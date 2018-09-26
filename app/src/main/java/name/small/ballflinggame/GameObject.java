@@ -5,18 +5,21 @@ import android.graphics.Canvas;
 
 public abstract class GameObject {
 
-    protected double xPos;
-    protected double yPos;
+    protected Vector2<Double> pos;
 
     public GameObject(double xPos, double yPos) {
-        this.xPos = xPos;
-        this.yPos = yPos;
+        this.pos = new Vector2<>(xPos, yPos);
     }
 
-    public void applyPhysics(/*Physics object*/) {
-        /* Update positions */
+    public Vector2<Double> getPos() {
+        return pos;
     }
 
+    public void setPos(Vector2<Double> pos) {
+        this.pos = pos;
+    }
+
+    public abstract void applyPhysics(PhysicsState phys);
 
     public abstract void draw(Canvas c);
 }

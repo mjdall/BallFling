@@ -14,12 +14,15 @@ import android.view.View;
 public class GameActiviy extends AppCompatActivity {
 
     private GestureDetectorCompat gestureDetector;
+    private GameState gameState;
 
     GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             // Use fling
             Log.d("202", "Got fling");
+            gameState.getPhysics().applyFling(velocityX, velocityY);
+            gameState.invalidate();
             return super.onFling(e1, e2, velocityX, velocityY);
         }
     };
@@ -28,8 +31,8 @@ public class GameActiviy extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        View v = findViewById(R.id.gameState);
-        v.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
+        gameState = findViewById(R.id.gameState);
+        gameState.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
                               | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                               | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 

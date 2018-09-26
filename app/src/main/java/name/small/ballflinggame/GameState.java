@@ -10,8 +10,11 @@ import android.view.View;
 
 public class GameState extends View {
 
-    Ball ball;
-    Context parentC;
+    private Ball ball;
+    private Context parentC;
+    private DisplayMetrics metrics;
+
+    private PhysicsState physics;
 
     public GameState (Context c) {
         super(c);
@@ -31,15 +34,37 @@ public class GameState extends View {
         init();
     }
 
+    public PhysicsState getPhysics() {
+        return physics;
+    }
+
     private void init() {
-        DisplayMetrics metrics = parentC.getResources().getDisplayMetrics();
+        metrics = parentC.getResources().getDisplayMetrics();
         ball = new Ball( metrics.widthPixels / 2, metrics.heightPixels * 0.85, 40, Color.WHITE);
+        physics = new PhysicsState(1000.0f, 1000.0f, 0.9, 0.9, 0.02);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawColor(Color.GREEN);
+
+        if(!physics.isStopped()) {
+            physics.doPhysicsUpdate();
+            ball.applyPhysics(physics);
+
+            Vector2<Double> pos = ball.getPos();
+            if (pos.x < ball.getRadius() || pos.x > metrics.widthPixels - ball.getRadius()) {
+                physics.ballBounce(PhysicsState.BounceDir.HORIZONTAL);
+                if (pos.x < ball.getRadius())
+                    pos.x = ball.getRadius();
+                else
+                    pos.x = metrics.widthPixels - ball.getRadius();
+                ball.setPos(pos);
+            }
+
+            invalidate();
+        }
         ball.draw(canvas);
     }
 }
