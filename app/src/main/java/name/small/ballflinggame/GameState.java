@@ -41,7 +41,7 @@ public class GameState extends View {
     private void init() {
         metrics = parentC.getResources().getDisplayMetrics();
         ball = new Ball( metrics.widthPixels / 2, metrics.heightPixels * 0.85, 40, Color.WHITE);
-        physics = new PhysicsState(1000.0f, 1000.0f, 0.9, 0.9, 0.02);
+        physics = new PhysicsState(1000.0f, 1000.0f, 0.99, 0.8, 0.02);
     }
 
     @Override

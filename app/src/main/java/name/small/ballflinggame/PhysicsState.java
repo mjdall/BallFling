@@ -12,6 +12,8 @@ public class PhysicsState {
     private double bounciness;
     private double flingDampening;
 
+    private double stopTolerance = 5;
+
     private double maxVx;
     private double maxVy;
 
@@ -80,6 +82,6 @@ public class PhysicsState {
     }
 
     public boolean isStopped() {
-        return Math.abs(vel.x) <= 1 && Math.abs(vel.y) <= 1;
+        return Math.abs(vel.x) <= stopTolerance && Math.abs(vel.y) <= stopTolerance;
     }
 }
