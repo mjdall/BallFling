@@ -3,11 +3,8 @@ package name.small.ballflinggame;
 import android.util.Log;
 
 public class PhysicsState {
-    public enum BounceDir {
-        VERTICAL,
-        HORIZONTAL,
-        VERTICAL_HORIZONTAL
-    }
+    public final static int BOUNCE_VERTICAL = 1;
+    public final static int BOUNCE_HORIZONTAL = 2;
 
     private Vector2<Double> vel;
 
@@ -37,6 +34,8 @@ public class PhysicsState {
     }
 
     public void applyFling(double vX, double vY) {
+        // Ignore flings while moving
+        // Ignore flings backwards
         if(!isStopped() || vY > 0)
             return;
 
@@ -58,16 +57,16 @@ public class PhysicsState {
         return pos;
     }
 
-    public void ballBounce(BounceDir dir) {
-        switch (dir) {
-            case VERTICAL:
-                vel.y *= -bounciness;
-            case HORIZONTAL:
-                vel.x *= -bounciness;
-            case VERTICAL_HORIZONTAL:
-                vel.x *= -bounciness;
-                vel.y *= -bounciness;
-        }
+    public void ballBounce(int bounceDir) {
+        Log.d("202", "Bouncing " + bounciness + " " + vel.x +" " + vel.y);
+
+        if((bounceDir & PhysicsState.BOUNCE_HORIZONTAL) != 0)
+            vel.x *= -bounciness;
+        if((bounceDir & PhysicsState.BOUNCE_VERTICAL) != 0)
+            vel.y *= -bounciness;
+
+        Log.d("202", "Bounced " + bounciness + " " + vel.x +" " + vel.y);
+
     }
 
     public void doPhysicsUpdate() {

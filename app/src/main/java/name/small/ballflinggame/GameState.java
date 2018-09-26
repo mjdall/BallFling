@@ -55,7 +55,7 @@ public class GameState extends View {
 
             Vector2<Double> pos = ball.getPos();
             if (pos.x < ball.getRadius() || pos.x > metrics.widthPixels - ball.getRadius()) {
-                physics.ballBounce(PhysicsState.BounceDir.HORIZONTAL);
+                physics.ballBounce(PhysicsState.BOUNCE_HORIZONTAL);
                 if (pos.x < ball.getRadius())
                     pos.x = ball.getRadius();
                 else
