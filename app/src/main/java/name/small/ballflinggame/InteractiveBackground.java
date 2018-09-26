@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Random;
 
 public class InteractiveBackground extends View {
+    private Context parent_c;
     private final int maxBalls = 20;
     private List<MiscBall> balls;
     private Boolean pressed;
@@ -29,6 +31,21 @@ public class InteractiveBackground extends View {
 
     public InteractiveBackground (Context c) {
         super(c);
+        init(c);
+    }
+
+    public InteractiveBackground (Context c, AttributeSet attrs) {
+        super(c, attrs);
+        init(c);
+    }
+
+    public InteractiveBackground (Context c, AttributeSet attrs, int defStyle) {
+        super(c, attrs, defStyle);
+        init(c);
+    }
+
+    private void init (Context c) {
+        this.parent_c = c;
         populateDirections();
         balls = new ArrayList<>();
         pressedAt = new Point();
@@ -36,6 +53,11 @@ public class InteractiveBackground extends View {
         DisplayMetrics metrics = c.getResources().getDisplayMetrics();
         this.canvasDims = new Point(metrics.widthPixels, metrics.heightPixels);
         spawnCount = spawnRate - 1;
+    }
+
+    @Override
+    public void onMeasure (int width, int height) {
+        super.onMeasure(width, height);
     }
 
     // create a direction array holding (-1, -1) to (1, 1)
@@ -61,18 +83,6 @@ public class InteractiveBackground extends View {
             directions[arrayIndex] = direction;
             arrayIndex++;
         }
-
-        /*
-        for (double y = -1; y < 2; y++)
-            for (double x = -1; x < 2; x++) {
-            if (x == 0 && y == 0) continue;
-                double[] direction = new double[2];
-                direction[0] = x;
-                direction[1] = y;
-                directions[arrayIndex] = direction;
-                arrayIndex++;
-            }
-        */
     }
 
     @Override

@@ -12,18 +12,18 @@ public class HomeScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
 
-        RelativeLayout layout = new RelativeLayout(this);
+        // RelativeLayout layout = new RelativeLayout(this);
 
         // TODO: Make fullscreen properly
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
+        // View decorView = getWindow().getDecorView();
+        // int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        // decorView.setSystemUiVisibility(uiOptions);
 
         // TODO: Create an InteractiveBackground
-        InteractiveBackground ib = new InteractiveBackground(this);
+        // InteractiveBackground ib = new InteractiveBackground(this);
 
-        layout.addView(ib);
-        setContentView(layout);
+        // layout.addView(ib);
+        // setContentView(layout);
 
     }
 }
