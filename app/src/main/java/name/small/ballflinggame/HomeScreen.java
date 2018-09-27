@@ -3,6 +3,7 @@ package name.small.ballflinggame;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -29,7 +30,20 @@ public class HomeScreen extends AppCompatActivity {
     }
 
     public void goToHighscores (View v) {
-        Intent myIntent = new Intent(this, HighScores.class);
-        startActivity(myIntent);
+        try {
+            Intent myIntent = new Intent(this, HighScores.class);
+            startActivity(myIntent);
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void goToGame (View v) {
+        try {
+            Intent myIntent = new Intent(this, GameActiviy.class);
+            startActivity(myIntent);
+        } catch (Exception e) {
+
+        }
     }
 }

@@ -30,23 +30,29 @@ public class HighScores extends AppCompatActivity {
         TextView tv3 = findViewById(R.id.score3);
         TextView tv4 = findViewById(R.id.score4);
         TextView tv5 = findViewById(R.id.score5);
-        highscore_labels[0] = tv1;
-        highscore_labels[1] = tv2;
+        highscore_labels[4] = tv1;
+        highscore_labels[3] = tv2;
         highscore_labels[2] = tv3;
-        highscore_labels[3] = tv4;
-        highscore_labels[4] = tv5;
+        highscore_labels[1] = tv4;
+        highscore_labels[0] = tv5;
     }
 
     private void generateRandomHS () {
         try {
+            highscores = new ArrayList<>();
             int score = 0;
             for (int i = 0; i < 5; i++) {
-                SoccerMumName newName = getNamesPl0x.getName(highscores);
-                Random rand = new Random();
-                score += rand.nextInt(5000);
-                newName.setScore(score);
-                highscores.add(newName);
-                highscore_labels[i].setText((CharSequence) newName.toString());
+                try {
+                     SoccerMumName newName = getNamesPl0x.getName(highscores);
+                     Random rand = new Random();
+                     score += rand.nextInt(5000);
+                     newName.setScore(score);
+                     highscores.add(newName);
+                     highscore_labels[i].setText((CharSequence) newName.toString());
+                } catch (Exception e){
+                    highscore_labels[i].setText((CharSequence) "***");
+                }
+
             }
         }
         catch (Exception e) {

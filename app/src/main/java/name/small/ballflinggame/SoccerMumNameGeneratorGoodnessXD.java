@@ -20,19 +20,24 @@ public class SoccerMumNameGeneratorGoodnessXD {
     // gens a new name
     public SoccerMumName getName (ArrayList<SoccerMumName> currentHighscores) {
         SoccerMumName new_name = genName();
-        for (int i = 0; i < currentHighscores.size(); i++)
-            if (new_name.compareId(currentHighscores.get(i).getId())) {
+        for (int i = 0; i < currentHighscores.size(); i++) {
+            try {
+                if (new_name.compare(currentHighscores.get(i))) {
+                    new_name = genName();
+                    i = 0;
+                }
+            } catch (Exception e) {
                 new_name = genName();
-                i = 0;
             }
+        }
         return new_name;
     }
 
     private SoccerMumName genName () {
         rand = new Random();
-        int index1 = rand.nextInt(28);
+        int index1 = rand.nextInt(27);
         rand = new Random();
-        int index2 = rand.nextInt(28);
+        int index2 = rand.nextInt(27);
         return new SoccerMumName(firstnames[index1], lastnames[index2], String.format("%03d%03d", index1, index2));
     }
 }

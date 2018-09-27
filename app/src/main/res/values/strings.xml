@@ -4,18 +4,15 @@
     <string name="play_game">Play Game</string>
     <string name="exit_Game">Exit</string>
     <string name="high_scores">High Scores</string>
-<<<<<<< HEAD
-
     <string name="title_activity_game_activiy">GameActiviy</string>
+    <string name="title_highscores_activity">HighScores</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-=======
     <string name="highscores_title">HighScores</string>
-    <string name="score_1" />
-    <string name="score_2" />
-    <string name="score_3" />
-    <string name="score_5" />
-    <string name="score_4" />
+    <string name="score_1" >s1</string>
+    <string name="score_2" >s2</string>
+    <string name="score_3" >s3</string>
+    <string name="score_5" >s5</string>
+    <string name="score_4" >s4</string>
     <string name="return_hs">Return</string>
->>>>>>> highscores
 </resources>

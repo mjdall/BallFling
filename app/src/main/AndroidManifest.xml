@@ -23,6 +23,13 @@
             android:theme="@style/FullscreenTheme"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".HighScores"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="HighScores"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

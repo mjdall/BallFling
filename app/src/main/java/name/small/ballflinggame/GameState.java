@@ -13,7 +13,12 @@ public class GameState extends View {
     private Ball ball;
     private Context parentC;
     private DisplayMetrics metrics;
-
+    // TODO: Create a list of screen objects here
+    // TODO: Create draw methods for screen objects
+    // TODO: Implement bouncing off of the objects rendered on the screen
+    // TODO: Implement bounce back on the ball -> render waterpit coming from below
+    // TODO: Implement the objects loaded buffer so we procedurally generate our level
+    // TODO: Implement scoring
     private PhysicsState physics;
 
     public GameState (Context c) {
@@ -52,7 +57,11 @@ public class GameState extends View {
         if(!physics.isStopped()) {
             physics.doPhysicsUpdate();
             ball.applyPhysics(physics);
-
+            // TODO: Loop through screen objects here, applying physics to them
+            // TODO: Apply physics, check in class if dead now
+            // TODO: In here, check isDead, if dead remove from list, generate new object offscreen?
+            // TODO: Should just be able to hold their position off screen but not actually render them until they should be on screen
+            // TODO: Check .onScreen() -> yes, draw -> no, no-draw.
             Vector2<Double> pos = ball.getPos();
             if (pos.x < ball.getRadius() || pos.x > metrics.widthPixels - ball.getRadius()) {
                 physics.ballBounce(PhysicsState.BOUNCE_HORIZONTAL);

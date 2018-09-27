@@ -22,8 +22,9 @@ public class SoccerMumName {
         return id;
     }
 
-    public Boolean compareId (String id) {
-        return this.id.equals(id);
+    public Boolean compare (SoccerMumName smn) {
+
+        return this.firstname.equals(smn.getFirstname()) && this.lastname.equals(smn.getLastname());
     }
 
     public int getScore () {
@@ -32,5 +33,13 @@ public class SoccerMumName {
 
     public void setScore (int score) {
         this.score = score;
+    }
+
+    public String getFirstname () {
+        return firstname;
+    }
+
+    public String getLastname () {
+        return lastname;
     }
 }
