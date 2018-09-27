@@ -15,7 +15,8 @@
             android:name=".GameActiviy"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_game_activiy"
-            android:theme="@style/FullscreenTheme">
+            android:theme="@style/FullscreenTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

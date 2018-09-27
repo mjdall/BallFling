@@ -17,4 +17,8 @@ public abstract class Obstacle extends GameObject {
     public Collider.Face checkCollision(Ball b) {
         return collider.checkBallCollision(b);
     }
+
+    public void applyPhysics(PhysicsState phys) {
+        pos = phys.obstacleUpdatePos(pos);
+    }
 }
