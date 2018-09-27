@@ -17,8 +17,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+<<<<<<< HEAD
         android:layout_marginTop="104dp"
         android:layout_marginEnd="8dp"
+=======
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+>>>>>>> highscores
         android:text="@string/title"
         android:textColor="@android:color/black"
         android:textSize="50sp"
@@ -30,6 +37,7 @@
     <Button
         android:id="@+id/button"
         android:layout_width="262dp"
+<<<<<<< HEAD
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
@@ -39,14 +47,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button3" />
+=======
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/exit_Game"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.537"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button3"
+        app:layout_constraintVertical_bias="0.0" />
+>>>>>>> highscores
 
     <Button
         android:id="@+id/button3"
         android:layout_width="262dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+<<<<<<< HEAD
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
+=======
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="goToHighscores"
+>>>>>>> highscores
         android:text="@string/high_scores"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,8 +91,15 @@
         android:layout_width="262dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+<<<<<<< HEAD
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
+=======
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+>>>>>>> highscores
         android:text="@string/play_game"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
