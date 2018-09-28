@@ -25,7 +25,6 @@ public class RectObstacle extends Obstacle implements Pit {
         double x = pos.x;
         double y = pos.y;
         if (y + obstacleDims.y < 0) return;
-        Log.d("[DrawingAt]", String.format("Drawing at %s, %s", Double.toString(pos.x), Double.toString(pos.y)));
         c.drawRect((float) x, (float) y, (float) x + obstacleDims.x, (float) y + obstacleDims.y, p);
     }
 

@@ -8,7 +8,7 @@ public abstract class Obstacle extends GameObject {
 
     protected boolean deadly;
     protected boolean offScreen;
-    private Point outerBounds;
+    protected Point outerBounds;
     private Collider collider;
     protected Point obstacleDims;
 

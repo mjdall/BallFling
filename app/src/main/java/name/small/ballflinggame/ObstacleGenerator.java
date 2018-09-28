@@ -17,6 +17,7 @@ public class ObstacleGenerator {
     private final int totalHeightGen; // Holds the screen height + genBounds
     private ArrayList<Obstacle> leftObstacles;
     private ArrayList<Obstacle> rightObstacles;
+    private ArrayList<Obstacle> otherObstacles;
     private Point outerBounds;
 
     private int totalGenerated;
@@ -32,7 +33,6 @@ public class ObstacleGenerator {
 
     // Don't need to use two lists but yolo
     public void doPhysicsOnObstacles (PhysicsState physics) {
-        Log.d("[Generator]", "Called size - " + leftObstacles.size());
         for (int i = 0; i < leftObstacles.size(); i++) {
             leftObstacles.get(i).applyPhysics(physics);
             rightObstacles.get(i).applyPhysics(physics);
@@ -45,13 +45,18 @@ public class ObstacleGenerator {
                 leftObstacles.remove(i);
                 rightObstacles.remove(i);
                 regenerate(physics);
-                Log.d("[REGENATED]", "**********");
             }
+        }
+        for (Obstacle o : otherObstacles) {
+            o.applyPhysics(physics);
         }
     }
 
     // draw the obstacles
     public void draw (Canvas c) {
+        for (Obstacle o : otherObstacles) {
+            o.draw(c);
+        }
         for (int i = 0; i < leftObstacles.size(); i++) {
             leftObstacles.get(i).draw(c);
             rightObstacles.get(i).draw(c);
@@ -79,8 +84,13 @@ public class ObstacleGenerator {
     private void initObstacles () {
         leftObstacles = new ArrayList<>();
         rightObstacles = new ArrayList<>();
+        otherObstacles = new ArrayList<>();
+
+        Point obsDims = new Point(outerBounds.x, 100);
+        PointLine pl = new PointLine(0, 0, obsDims, outerBounds);
+        otherObstacles.add(pl);
+
         GenBounds gb = new GenBounds(outerBounds, totalHeightGen);
-        Log.d("[InitGenerator]", "Called - " + gb.enoughAlready());
         // Generates new obstacles on either side of the screen until it has generated a certain height of objects
         while (!gb.enoughAlready()) {
             Point newObjDims = new Point(genBaseWidth + rand.nextInt(genBaseWidthAddition), genBaseHeight + rand.nextInt(genBaseHeightAddition));
@@ -89,7 +99,6 @@ public class ObstacleGenerator {
             RectObstacle rightObj = new RectObstacle(gb.xMax(), gb.y(), newObjDims, outerBounds);
             leftObstacles.add(leftObj);
             rightObstacles.add(rightObj);
-            Log.d("[Generator]", "Making new obstacle");
         }
         totalGenerated = gb.getGenerated();
     }

@@ -49,10 +49,16 @@ public class GameState extends View {
         DisplayMetrics metrics = parentC.getResources().getDisplayMetrics();
         this.screenDims = new Point(metrics.widthPixels, metrics.heightPixels);
         ball = new Ball( screenDims.x / 2, screenDims.y * 0.85, 40, Color.BLACK);
-        physics = new PhysicsState(1000.0f, 1000.0f, 0.99, 0.8, 0.02, screenDims);
+        physics = new PhysicsState(25.0f, 100.0f, 0.993, 0.8, 0.02, screenDims);
         gener = new ObstacleGenerator(screenDims);
     }
 
+    // TODO: Add points for passing over point line
+    // TODO: Add points textview
+    // TODO: Add music
+    // TODO: Add collisions lul
+    // TODO: Add more obstacles
+    // TODO: Add death
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

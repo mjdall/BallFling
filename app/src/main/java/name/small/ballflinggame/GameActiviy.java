@@ -1,18 +1,22 @@
 package name.small.ballflinggame;
 
-import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.support.v4.view.GestureDetectorCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class GameActiviy extends AppCompatActivity {
-
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private AccelerometerListener listener;
     private GestureDetectorCompat gestureDetector;
     private GameState gameState;
 
@@ -37,10 +41,43 @@ public class GameActiviy extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
         gestureDetector = new GestureDetectorCompat(this, gestureListener);
+
+        PackageManager manager = getPackageManager();
+        if (manager.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER)) {
+            sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+            accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            listener = new AccelerometerListener();
+        }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return this.gestureDetector.onTouchEvent(event) || super.onTouchEvent(event);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(listener, accelerometer);
+        Log.d("onPause", "App Paused");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(listener, accelerometer,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        Log.d("onResume", "App Resumed");
+    }
+
+    class AccelerometerListener implements SensorEventListener {
+        @Override
+        public void onSensorChanged(SensorEvent sensorEvent) {
+            gameState.getPhysics().handleAccelerometer(sensorEvent.values[0]);
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+        }
     }
 }
