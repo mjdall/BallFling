@@ -21,10 +21,9 @@ public class Ball extends GameObject {
         this.paint.setColor(colour);
     }
 
-
     @Override
     public void applyPhysics(PhysicsState phys) {
-        pos = phys.ballUpdatePos(pos);
+        pos = phys.ballUpdatePos(pos, this);
     }
 
     @Override
