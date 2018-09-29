@@ -87,8 +87,6 @@ public class ObstacleGenerator {
         otherObstacles = new ArrayList<>();
 
         Point obsDims = new Point(outerBounds.x, 100);
-        PointLine pl = new PointLine(0, 0, obsDims, outerBounds);
-        otherObstacles.add(pl);
 
         GenBounds gb = new GenBounds(outerBounds, totalHeightGen);
         // Generates new obstacles on either side of the screen until it has generated a certain height of objects

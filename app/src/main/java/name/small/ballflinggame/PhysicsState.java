@@ -18,12 +18,9 @@ public class PhysicsState {
     private double maxVx;
     private double maxVy;
 
-    private final double idleVy = 30;
     private final double accelerometerSpeedUp = 2.5;
 
     private Point bounds;
-
-    private boolean flinged = false;
 
     private static double Clamp(double val, double min, double max) {
         return Math.max(min, Math.min(max, val));
@@ -47,27 +44,20 @@ public class PhysicsState {
     public void applyFling(double vX, double vY) {
         // Ignore flings while moving
         // Ignore flings backwards
-        // if (vX < 0) return;
-
-        if(vel.y > idleVy)
-            return;
-
-        if(vX < 0) {
-            Log.d("202", vX + "");
-        }
+        if (!isStopped() || vY > 0) return;
 
         vel.x = Clamp(vX * flingDampening, -maxVx, maxVx);
-        vel.y = Clamp(vY * flingDampening, maxVy, maxVy);
+        vel.y = Clamp(vY * flingDampening, -maxVy, maxVy);
         Log.d("physics", String.format("xvel: %.05f, yvel: %.05f", vel.x, vel.y));
-        flinged = true;
     }
 
     public Vector2<Double> obstacleUpdatePos(Vector2<Double> pos) {
-        pos.y += vel.y;
+        pos.y += (-vel.y);
         return pos;
     }
 
-    public Vector2<Double> ballUpdatePos(Vector2<Double> pos, Ball ball) {
+    public Vector2<Double> ballUpdatePos(Ball ball) {
+        Vector2<Double> pos = ball.pos;
         pos.x += vel.x;
 
         if (pos.x < ball.getRadius() || pos.x > bounds.x - ball.getRadius()) {
@@ -95,30 +85,24 @@ public class PhysicsState {
     }
 
     public void doPhysicsUpdate() {
-        double newVy = vel.y *= friction;
         vel.x *= friction;
-        vel.y = newVy > idleVy ? newVy : idleVy;
+        vel.y *= friction;
         // Log.d("physics", String.format("xvel: %.05f, yvel: %.05f", vel.x, vel.y));
 
         if(isStopped()) {
             Log.d("202", "Stopped");
             vel.x = 0.0;
-            vel.y = idleVy;
-            flinged = false;
+            vel.y = 0.0;
         }
 
     }
 
     public void handleAccelerometer (float input) {
-        if (isFlicked()) return;
-        vel.x = (double) -input * accelerometerSpeedUp;
-    }
-
-    public boolean isFlicked () {
-        return flinged;
+        if (isStopped()) return;
+        //vel.x = (double) -input * accelerometerSpeedUp;
     }
 
     public boolean isStopped() {
-        return Math.abs(vel.x) <= stopTolerance && Math.abs(vel.y) <= idleVy + stopTolerance;
+        return Math.abs(vel.x) <= stopTolerance && Math.abs(vel.y) <= stopTolerance;
     }
 }

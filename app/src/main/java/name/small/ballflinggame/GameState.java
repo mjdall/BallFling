@@ -49,7 +49,7 @@ public class GameState extends View {
         DisplayMetrics metrics = parentC.getResources().getDisplayMetrics();
         this.screenDims = new Point(metrics.widthPixels, metrics.heightPixels);
         ball = new Ball( screenDims.x / 2, screenDims.y * 0.85, 40, Color.BLACK);
-        physics = new PhysicsState(25.0f, 100.0f, 0.993, 0.8, 0.02, screenDims);
+        physics = new PhysicsState(25.0f, 100.0f, 0.993, 0.8, 0.002, screenDims);
         gener = new ObstacleGenerator(screenDims);
     }
 

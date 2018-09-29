@@ -23,7 +23,7 @@ public class Ball extends GameObject {
 
     @Override
     public void applyPhysics(PhysicsState phys) {
-        pos = phys.ballUpdatePos(pos, this);
+        pos = phys.ballUpdatePos(this);
     }
 
     @Override

@@ -45,7 +45,7 @@ public class RectObstacle extends Obstacle implements Pit {
     private void initColour () {
         p = new Paint();
         // p.setColor(pt == PitType.Water ? Color.BLUE : pt == PitType.Sand ? Color.YELLOW : Color.LTGRAY);
-        p.setColor(Color.BLACK);
+        p.setColor(Color.BLUE);
     }
 
     // Currently water and void are deadly pitypes
