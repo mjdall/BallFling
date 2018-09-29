@@ -18,7 +18,7 @@ public class PhysicsState {
     private double maxVx;
     private double maxVy;
 
-    private final double accelerometerSpeedUp = 2.5;
+    private final double accelerometerSpeedUp = 1;
 
     private Point bounds;
 
@@ -99,7 +99,7 @@ public class PhysicsState {
 
     public void handleAccelerometer (float input) {
         if (isStopped()) return;
-        //vel.x = (double) -input * accelerometerSpeedUp;
+        vel.x += (double) -input * accelerometerSpeedUp;
     }
 
     public boolean isStopped() {
