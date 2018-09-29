@@ -8,6 +8,7 @@ public class PhysicsState {
     public final static int BOUNCE_HORIZONTAL = 2;
 
     private Vector2<Double> vel;
+    private double acclVel = 0.0;
 
     private double friction;
     private double bounciness;
@@ -17,8 +18,9 @@ public class PhysicsState {
 
     private double maxVx;
     private double maxVy;
+    private double maxAccl = 5;
 
-    private final double accelerometerSpeedUp = 1;
+    private final double accelerometerSpeedUp = 1.5;
 
     private Point bounds;
 
@@ -75,16 +77,21 @@ public class PhysicsState {
     public void ballBounce(int bounceDir) {
         Log.d("202", "Bouncing " + bounciness + " " + vel.x +" " + vel.y);
 
-        if((bounceDir & PhysicsState.BOUNCE_HORIZONTAL) != 0)
+        if((bounceDir & PhysicsState.BOUNCE_HORIZONTAL) != 0) {
             vel.x *= -bounciness;
-        if((bounceDir & PhysicsState.BOUNCE_VERTICAL) != 0)
+            acclVel *= bounciness;
+        }
+
+        if((bounceDir & PhysicsState.BOUNCE_VERTICAL) != 0) {
             vel.y *= -bounciness;
+        }
 
         Log.d("202", "Bounced " + bounciness + " " + vel.x +" " + vel.y);
 
     }
 
     public void doPhysicsUpdate() {
+        acclVel *= friction;
         vel.x *= friction;
         vel.y *= friction;
         // Log.d("physics", String.format("xvel: %.05f, yvel: %.05f", vel.x, vel.y));
@@ -98,11 +105,23 @@ public class PhysicsState {
     }
 
     public void handleAccelerometer (float input) {
-        if (isStopped()) return;
-        vel.x += (double) -input * accelerometerSpeedUp;
+        if (!isStopped()) {
+            vel.x -= acclVel;
+            acclVel = Clamp((double) -input * accelerometerSpeedUp, -maxAccl, maxAccl);
+            if(vel.x + acclVel > maxVx) {
+                acclVel = maxVx - vel.x;
+            } else if(vel.x + acclVel < -maxVx) {
+                acclVel = (-maxVx) - vel.x;
+            }
+            vel.x += acclVel;
+        }
+        else {
+            vel.x -= acclVel;
+            acclVel = 0;
+        }
     }
 
     public boolean isStopped() {
-        return Math.abs(vel.x) <= stopTolerance && Math.abs(vel.y) <= stopTolerance;
+        return Math.abs(vel.x - acclVel) <= stopTolerance && Math.abs(vel.y) <= stopTolerance;
     }
 }
