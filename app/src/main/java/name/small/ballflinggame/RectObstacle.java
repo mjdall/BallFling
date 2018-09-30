@@ -16,8 +16,14 @@ public class RectObstacle extends Obstacle implements Pit {
 
     // TODO: Implement object dims being set on creation of this method so we know it's set
     public RectObstacle (double xPos, double yPos, Point obstacleDims, Point bounds) {
-        super(xPos, yPos, obstacleDims, bounds);
+        super(xPos, yPos, obstacleDims, bounds, new RectCollider(xPos, yPos, obstacleDims.x, obstacleDims.y));
         init();
+    }
+
+    @Override
+    public void updatePos(Vector2<Double> newPos) {
+        pos = newPos;
+        ((RectCollider)collider).updatePosition(pos.x, pos.y, obstacleDims.x, obstacleDims.y);
     }
 
     @Override
@@ -50,6 +56,6 @@ public class RectObstacle extends Obstacle implements Pit {
 
     // Currently water and void are deadly pitypes
     private void initDeadly () {
-        deadly = pt == PitType.Water || pt == PitType.Void;
+        deadly = false;
     }
 }

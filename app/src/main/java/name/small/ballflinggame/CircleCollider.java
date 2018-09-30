@@ -11,18 +11,22 @@ public class CircleCollider implements Collider {
     }
 
     @Override
-    public Face checkBallCollision(Ball b) {
+    public boolean checkBallCollision(Ball b) {
         Vector2<Double> ballPos = b.getPos();
         double ballRadius = b.getRadius();
         double dX = pos.x - ballPos.x;
         double dY = pos.y - ballPos.y;
-        double distSqr = dX*dX + dY*dY;
         double minDist = (radius + ballRadius);
-        if(distSqr > minDist*minDist) {
-            return Face.None;
-        }
+        return dX*dX + dY*dY <= minDist*minDist;
+    }
 
-        // TODO make more robust
-        return Face.Down;
+    @Override
+    public boolean supportsBounce() {
+        return false;
+    }
+
+    @Override
+    public Vector2<Integer> getBounceDir(Ball b, PhysicsState phys) {
+        throw new UnsupportedOperationException("Circle colliders do not support bounces");
     }
 }
