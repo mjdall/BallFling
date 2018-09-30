@@ -5,6 +5,7 @@ import android.graphics.Point;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class ObstacleGenerator {
@@ -44,12 +45,57 @@ public class ObstacleGenerator {
                 totalGenerated -= height;
                 leftObstacles.remove(i);
                 rightObstacles.remove(i);
-                regenerate(physics);
+                regenerate();
             }
         }
         for (Obstacle o : otherObstacles) {
             o.applyPhysics(physics);
         }
+    }
+
+    // Returns null on fatal collision
+    public List<Vector2<Integer>> getBounces(Ball b, PhysicsState phys) {
+        List<Vector2<Integer>> list = new ArrayList<>();
+        for (Obstacle o : otherObstacles) {
+            if(o.checkCollision(b)) {
+                Log.d("202", "Normal Obstacle:" + o.toString());
+                if(o.isDeadly())
+                    return null;
+                Vector2<Integer> bounce = o.getBounceDir(b, phys);
+                if(bounce != null) {
+                    Log.d("202", "Bounce: " + bounce.x + " " + bounce.y);
+                    list.add(bounce);
+                }
+            }
+        }
+
+        for (Obstacle o : leftObstacles) {
+            if(o.checkCollision(b)) {
+                Log.d("202", "Left Obstacle:" + o.toString());
+                if(o.isDeadly())
+                    return null;
+                Vector2<Integer> bounce = o.getBounceDir(b, phys);
+                if(bounce != null) {
+                    Log.d("202", "Bounce: " + bounce.x + " " + bounce.y);
+                    list.add(bounce);
+                }
+            }
+        }
+
+        for (Obstacle o : rightObstacles) {
+            if(o.checkCollision(b)) {
+                Log.d("202", "Right Obstacle:" + o.toString());
+                if(o.isDeadly())
+                    return null;
+                Vector2<Integer> bounce = o.getBounceDir(b, phys);
+                if(bounce != null) {
+                    Log.d("202", "Bounce: " + bounce.x + " " + bounce.y);
+                    list.add(bounce);
+                }
+            }
+        }
+
+        return list;
     }
 
     // draw the obstacles
@@ -67,7 +113,7 @@ public class ObstacleGenerator {
         Whenever an obstacle goes off screen, we call this method.
         This will generate new obstacles until we meet our pre-rendered requirement
      */
-    private void regenerate (PhysicsState phy) {
+    private void regenerate () {
         while (true) {
             if (totalGenerated >= totalHeightGen) break;
             Point newObjDims = new Point(genBaseWidth + rand.nextInt(genBaseWidthAddition), genBaseHeight + rand.nextInt(genBaseHeightAddition));

@@ -7,7 +7,10 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
+
+import java.util.List;
 
 public class GameState extends View {
 
@@ -63,9 +66,21 @@ public class GameState extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawColor(Color.WHITE);
-        physics.doPhysicsUpdate();
-        ball.applyPhysics(physics);
-        gener.doPhysicsOnObstacles(physics);
+        if(!physics.isStopped()) {
+            physics.doPhysicsUpdate();
+            ball.applyPhysics(physics);
+            gener.doPhysicsOnObstacles(physics);
+            List<Vector2<Integer>> bounces = gener.getBounces(ball, physics);
+            if (bounces == null) {
+                // TODO Die
+                Log.d("202", "Collided with fatal object");
+                gener.draw(canvas);
+                ball.draw(canvas);
+                physics.stop();
+                return;
+            }
+            physics.doBounces(bounces);
+        }
         // TODO: Loop through screen objects here, applying physics to them
         // TODO: Apply physics, check in class if dead now
         // TODO: In here, check isDead, if dead remove from list, generate new object offscreen?

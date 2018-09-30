@@ -3,11 +3,14 @@ package name.small.ballflinggame;
 import android.graphics.Point;
 import android.util.Log;
 
+import java.util.List;
+
 public class PhysicsState {
     public final static int BOUNCE_VERTICAL = 1;
     public final static int BOUNCE_HORIZONTAL = 2;
 
     private Vector2<Double> vel;
+    private double acclVel = 0.0;
 
     private double friction;
     private double bounciness;
@@ -17,8 +20,9 @@ public class PhysicsState {
 
     private double maxVx;
     private double maxVy;
+    private double maxAccl = 5;
 
-    private final double accelerometerSpeedUp = 1;
+    private final double accelerometerSpeedUp = 1.5;
 
     private Point bounds;
 
@@ -44,11 +48,17 @@ public class PhysicsState {
     public void applyFling(double vX, double vY) {
         // Ignore flings while moving
         // Ignore flings backwards
-        if (!isStopped() || vY > 0) return;
+        if (!isStopped()) return;
+
+        if(vY > 0) vY = 0;
 
         vel.x = Clamp(vX * flingDampening, -maxVx, maxVx);
         vel.y = Clamp(vY * flingDampening, -maxVy, maxVy);
         Log.d("physics", String.format("xvel: %.05f, yvel: %.05f", vel.x, vel.y));
+    }
+
+    public Vector2<Double> getVel() {
+        return vel;
     }
 
     public Vector2<Double> obstacleUpdatePos(Vector2<Double> pos) {
@@ -60,6 +70,8 @@ public class PhysicsState {
         Vector2<Double> pos = ball.pos;
         pos.x += vel.x;
 
+        // Bounce off edge of screen
+        // Should never happen
         if (pos.x < ball.getRadius() || pos.x > bounds.x - ball.getRadius()) {
             ballBounce(PhysicsState.BOUNCE_HORIZONTAL);
             if (pos.x < ball.getRadius())
@@ -72,19 +84,44 @@ public class PhysicsState {
         return pos;
     }
 
-    public void ballBounce(int bounceDir) {
+    public void doBounces(List<Vector2<Integer>> bounces) {
+        int xSum = 0;
+        int ySum = 0;
+        for(Vector2<Integer> bounce : bounces) {
+            xSum += bounce.x;
+            ySum += bounce.y;
+        }
+
+        int bounceDir = 0;
+        if((xSum > 0 && vel.x < 0) || (xSum < 0 && vel.x > 0)) {
+            bounceDir |= BOUNCE_HORIZONTAL;
+        }
+        if((ySum > 0 && vel.y < 0) || (ySum < 0 && vel.y > 0)) {
+            bounceDir |= BOUNCE_VERTICAL;
+        }
+
+        ballBounce(bounceDir);
+    }
+
+    // Applies bounciness to affected directions
+    private void ballBounce(int bounceDir) {
+        if(bounceDir == 0) return;
         Log.d("202", "Bouncing " + bounciness + " " + vel.x +" " + vel.y);
 
-        if((bounceDir & PhysicsState.BOUNCE_HORIZONTAL) != 0)
+        if((bounceDir & PhysicsState.BOUNCE_HORIZONTAL) != 0) {
             vel.x *= -bounciness;
-        if((bounceDir & PhysicsState.BOUNCE_VERTICAL) != 0)
+            acclVel *= bounciness;
+        }
+
+        if((bounceDir & PhysicsState.BOUNCE_VERTICAL) != 0) {
             vel.y *= -bounciness;
+        }
 
         Log.d("202", "Bounced " + bounciness + " " + vel.x +" " + vel.y);
-
     }
 
     public void doPhysicsUpdate() {
+        acclVel *= friction;
         vel.x *= friction;
         vel.y *= friction;
         // Log.d("physics", String.format("xvel: %.05f, yvel: %.05f", vel.x, vel.y));
@@ -98,11 +135,26 @@ public class PhysicsState {
     }
 
     public void handleAccelerometer (float input) {
-        if (isStopped()) return;
-        vel.x += (double) -input * accelerometerSpeedUp;
+        if (!isStopped()) {
+            vel.x -= acclVel;
+            acclVel = Clamp((double) -input * accelerometerSpeedUp, -maxAccl, maxAccl);
+            if(vel.x + acclVel > maxVx) {
+                acclVel = maxVx - vel.x;
+            } else if(vel.x + acclVel < -maxVx) {
+                acclVel = (-maxVx) - vel.x;
+            }
+            vel.x += acclVel;
+        }
+
+    }
+
+    public void stop() {
+        acclVel = 0.0;
+        vel.x = 0.0;
+        vel.y = 0.0;
     }
 
     public boolean isStopped() {
-        return Math.abs(vel.x) <= stopTolerance && Math.abs(vel.y) <= stopTolerance;
+        return Math.abs(vel.x - acclVel) <= stopTolerance && Math.abs(vel.y) <= stopTolerance;
     }
 }

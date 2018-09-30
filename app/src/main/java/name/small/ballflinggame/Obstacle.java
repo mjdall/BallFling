@@ -7,36 +7,41 @@ import android.util.Log;
 public abstract class Obstacle extends GameObject {
 
     protected boolean deadly;
-    protected boolean offScreen;
     protected Point outerBounds;
-    private Collider collider;
+    protected Collider collider;
     protected Point obstacleDims;
 
     public boolean isDeadly() {
         return deadly;
     }
 
-    public Obstacle(double xPos, double yPos, Point obstacleDims, Point outerBounds) {
+    public Obstacle(double xPos, double yPos, Point obstacleDims, Point outerBounds, Collider collider) {
         super(xPos, yPos);
-        offScreen = false;
         this.obstacleDims = obstacleDims;
         this.outerBounds = outerBounds;
-        // TODO: Init a new collider
+        this.collider = collider;
     }
 
-    public Collider.Face checkCollision(Ball b) {
+    public boolean checkCollision(Ball b) {
         return collider.checkBallCollision(b);
+    }
+
+    public abstract void updatePos(Vector2<Double> pos);
+
+    public Vector2<Integer> getBounceDir(Ball b, PhysicsState phys) {
+        if(collider.supportsBounce()) {
+            return collider.getBounceDir(b, phys);
+        }
+        return null;
     }
 
     // updates pos from phy to be -vY
     public void applyPhysics(PhysicsState phys) {
-        pos = phys.obstacleUpdatePos(pos);
-        if (pos.y < outerBounds.y) offScreen = false;
-        else offScreen = true;
+        updatePos(phys.obstacleUpdatePos(pos));
     }
 
     public boolean offScreen () {
-        return offScreen;
+        return pos.y > outerBounds.y;
     }
 
     public Point getDims () {
