@@ -70,7 +70,7 @@ public class GameState extends View {
             physics.doPhysicsUpdate();
             ball.applyPhysics(physics);
             gener.doPhysicsOnObstacles(physics);
-            List<Vector2<Integer>> bounces = gener.getBounces(ball, physics);
+            List<Vector2<Integer>> bounces = null; // gener.getBounces(ball, physics);
             if (bounces == null) {
                 // TODO Die
                 Log.d("202", "Collided with fatal object");
@@ -79,7 +79,7 @@ public class GameState extends View {
                 physics.stop();
                 return;
             }
-            physics.doBounces(bounces);
+            // physics.doBounces(bounces);
         }
         // TODO: Loop through screen objects here, applying physics to them
         // TODO: Apply physics, check in class if dead now

@@ -17,6 +17,15 @@ public class RectObstacle extends Obstacle implements Pit {
     // TODO: Implement object dims being set on creation of this method so we know it's set
     public RectObstacle (double xPos, double yPos, Point obstacleDims, Point bounds) {
         super(xPos, yPos, obstacleDims, bounds, new RectCollider(xPos, yPos, obstacleDims.x, obstacleDims.y));
+        rand = new Random();
+        pt = initType(rand.nextInt(3));
+        init();
+    }
+
+    // TODO: Implement object dims being set on creation of this method so we know it's set
+    public RectObstacle (double xPos, double yPos, Point obstacleDims, Point bounds, PitType pt) {
+        super(xPos, yPos, obstacleDims, bounds, new RectCollider(xPos, yPos, obstacleDims.x, obstacleDims.y));
+        this.pt = pt;
         init();
     }
 
@@ -36,7 +45,6 @@ public class RectObstacle extends Obstacle implements Pit {
 
     private void init () {
         rand = new Random();
-        pt = initType(rand.nextInt(3));
         initColour();
         initDeadly();
         // TODO: Make a collider in here
@@ -50,8 +58,8 @@ public class RectObstacle extends Obstacle implements Pit {
     // gets the colour of the pit type
     private void initColour () {
         p = new Paint();
-        // p.setColor(pt == PitType.Water ? Color.BLUE : pt == PitType.Sand ? Color.YELLOW : Color.LTGRAY);
-        p.setColor(Color.BLUE);
+        p.setColor(pt == PitType.Water ? Color.BLUE : pt == PitType.Sand ? Color.YELLOW : Color.LTGRAY);
+        // p.setColor(Color.BLUE);
     }
 
     // Currently water and void are deadly pitypes

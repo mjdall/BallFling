@@ -13,8 +13,10 @@ public class RectCollider implements Collider {
     }
 
     public RectCollider(double x, double y, double w, double h) {
+        /*
         if(w <= 0 || h <= 0)
             throw new IllegalArgumentException("Dimensions must be >= 0");
+            */
         tl = new Vector2<>(x,y);
         tr = new Vector2<>(x+w,y);
         bl = new Vector2<>(x,y+h);
