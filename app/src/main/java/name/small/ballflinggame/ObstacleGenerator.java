@@ -34,7 +34,7 @@ public class ObstacleGenerator {
 
     // Don't need to use two lists but yolo
     public void doPhysicsOnObstacles (PhysicsState physics) {
-        for (int i = 0; i < leftObstacles.size(); i++) {
+        for (int i = leftObstacles.size() - 1; i >= 0; i--) {
             leftObstacles.get(i).applyPhysics(physics);
             rightObstacles.get(i).applyPhysics(physics);
 
@@ -48,54 +48,47 @@ public class ObstacleGenerator {
                 regenerate();
             }
         }
-        for (Obstacle o : otherObstacles) {
+        for (int i = otherObstacles.size() - 1; i >=0; i--) {
+            Obstacle o = otherObstacles.get(i);
+            if(o.offScreen())
+                otherObstacles.remove(i);
             o.applyPhysics(physics);
         }
     }
 
+    // Returns null on fatal collision or if bounces is already null
+    private List<Vector2<Integer>> getListBounces(List<Obstacle> obstacles, Ball b, PhysicsState phys, List<Vector2<Integer>> bounces) {
+        if(bounces == null) // Propogate previous failure here for cleanliness
+            return null;
+        for (Obstacle o : obstacles) {
+            Collider.CollisionType collisionType = o.checkCollision(b);
+            if(collisionType != Collider.CollisionType.None) {
+                Log.d("202", "Normal Obstacle:" + o.toString());
+                if(o.isDeadly()) {
+                    if(collisionType == Collider.CollisionType.Internal) // Die if past point of no return
+                        return null;
+                    else
+                        continue;
+                }
+                Vector2<Integer> bounce = o.getBounceDir(b, phys);
+                if(bounce != null) {
+                    Log.d("202", "Bounce: " + bounce.x + " " + bounce.y);
+                    bounces.add(bounce);
+                }
+            }
+        }
+        return bounces;
+    }
+
     // Returns null on fatal collision
     public List<Vector2<Integer>> getBounces(Ball b, PhysicsState phys) {
-        List<Vector2<Integer>> list = new ArrayList<>();
-        for (Obstacle o : otherObstacles) {
-            if(o.checkCollision(b)) {
-                Log.d("202", "Normal Obstacle:" + o.toString());
-                if(o.isDeadly())
-                    return null;
-                Vector2<Integer> bounce = o.getBounceDir(b, phys);
-                if(bounce != null) {
-                    Log.d("202", "Bounce: " + bounce.x + " " + bounce.y);
-                    list.add(bounce);
-                }
-            }
-        }
+        List<Vector2<Integer>> bounces = new ArrayList<>();
 
-        for (Obstacle o : leftObstacles) {
-            if(o.checkCollision(b)) {
-                Log.d("202", "Left Obstacle:" + o.toString());
-                if(o.isDeadly())
-                    return null;
-                Vector2<Integer> bounce = o.getBounceDir(b, phys);
-                if(bounce != null) {
-                    Log.d("202", "Bounce: " + bounce.x + " " + bounce.y);
-                    list.add(bounce);
-                }
-            }
-        }
+        bounces = getListBounces(otherObstacles, b, phys, bounces);
+        bounces = getListBounces(rightObstacles, b, phys, bounces);
+        bounces = getListBounces(leftObstacles, b, phys, bounces);
 
-        for (Obstacle o : rightObstacles) {
-            if(o.checkCollision(b)) {
-                Log.d("202", "Right Obstacle:" + o.toString());
-                if(o.isDeadly())
-                    return null;
-                Vector2<Integer> bounce = o.getBounceDir(b, phys);
-                if(bounce != null) {
-                    Log.d("202", "Bounce: " + bounce.x + " " + bounce.y);
-                    list.add(bounce);
-                }
-            }
-        }
-
-        return list;
+        return bounces;
     }
 
     // draw the obstacles
@@ -124,6 +117,11 @@ public class ObstacleGenerator {
             totalGenerated += newObjDims.y;
             leftObstacles.add(leftObj);
             rightObstacles.add(rightObj);
+
+            Log.d("202", "Gen centre obstacle: " + (rightX / 2 - newObjDims.x/2) + " " + y + " " + newObjDims.x + " " + newObjDims.y);
+            RectObstacle centreObstacle = new RectObstacle(rightX / 2 - newObjDims.x/2, y, newObjDims, outerBounds);
+            centreObstacle.deadly = true;
+            otherObstacles.add(centreObstacle);
         }
     }
 

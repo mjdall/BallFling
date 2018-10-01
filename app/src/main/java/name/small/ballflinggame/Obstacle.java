@@ -22,7 +22,7 @@ public abstract class Obstacle extends GameObject {
         this.collider = collider;
     }
 
-    public boolean checkCollision(Ball b) {
+    public Collider.CollisionType checkCollision(Ball b) {
         return collider.checkBallCollision(b);
     }
 
