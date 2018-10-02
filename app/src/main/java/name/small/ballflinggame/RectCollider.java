@@ -31,7 +31,7 @@ public class RectCollider implements Collider {
     }
 
     @Override
-    public boolean checkBallCollision(Ball b) {
+    public CollisionType checkBallCollision(Ball b) {
 
         Vector2<Double> pos = b.getPos();
         double radius = b.getRadius();
@@ -41,11 +41,17 @@ public class RectCollider implements Collider {
         double minY = tl.y;
         double maxY = bl.y;
 
+        // Completely inside rectangle
+        if(pos.x >= minX && pos.x <= maxX && pos.y >= minY && pos.y <= maxY) {
+            Log.d("202", "Internal collision");
+            return CollisionType.Internal;
+        }
+
         // If the ball is touching the top or bottom
         if(pos.x >= minX && pos.x <= maxX) {
             if(Math.abs(pos.y - minY) <= radius || Math.abs(pos.y - maxY) <= radius) {
                 Log.d("202", "Top collision");
-                return true;
+                return CollisionType.Side;
             }
         }
 
@@ -53,14 +59,8 @@ public class RectCollider implements Collider {
         if(pos.y >= minY && pos.y <= maxY) {
             if(Math.abs(pos.x - minX) <= radius || Math.abs(pos.x - maxX) <= radius) {
                 Log.d("202", "Side collision");
-                return true;
+                return CollisionType.Side;
             }
-        }
-
-        // Completely inside rectangle
-        if(pos.x >= minX && pos.x <= maxX && pos.y >= minY && pos.y <= maxY) {
-            Log.d("202", "Internal collision");
-            return true;
         }
 
         // If one of the corners are inside the ball
@@ -69,10 +69,10 @@ public class RectCollider implements Collider {
                 || getDistSqr(bl, pos) <= radiusSqr
                 || getDistSqr(br, pos) <= radiusSqr) {
             Log.d("202", "Corner collision");
-            return true;
+            return CollisionType.Side;
         }
 
-        return false;
+        return CollisionType.None;
     }
 
     @Override

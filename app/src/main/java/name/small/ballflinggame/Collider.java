@@ -2,7 +2,13 @@ package name.small.ballflinggame;
 
 public interface Collider {
 
-    boolean checkBallCollision(Ball b);
+    enum CollisionType {
+        None,
+        Side,
+        Internal
+    }
+
+    CollisionType checkBallCollision(Ball b);
 
     boolean supportsBounce();
 

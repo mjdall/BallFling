@@ -11,13 +11,18 @@ public class CircleCollider implements Collider {
     }
 
     @Override
-    public boolean checkBallCollision(Ball b) {
+    public CollisionType checkBallCollision(Ball b) {
         Vector2<Double> ballPos = b.getPos();
         double ballRadius = b.getRadius();
         double dX = pos.x - ballPos.x;
         double dY = pos.y - ballPos.y;
         double minDist = (radius + ballRadius);
-        return dX*dX + dY*dY <= minDist*minDist;
+        if(dX*dX + dY*dY <= radius*radius)
+            return CollisionType.Internal;
+        else if(dX*dX + dY*dY <= minDist*minDist)
+            return CollisionType.Side;
+
+        return CollisionType.None;
     }
 
     @Override
