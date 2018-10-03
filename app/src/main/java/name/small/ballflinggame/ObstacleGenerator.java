@@ -10,10 +10,10 @@ import java.util.Random;
 
 public class ObstacleGenerator {
     // TODO: Generates well
-    private final int genBounds = 5000;
+    private final int genBounds = 2000;
     private final int genBaseWidth = 100;
     private final int genBaseWidthAddition = 100;
-    private final int genBaseHeight = 150;
+    private final int genBaseHeight = 250;
     private final int genBaseHeightAddition = 300;
     private final int totalHeightGen; // Holds the screen height + genBounds
     private ArrayList<Obstacle> leftObstacles;
@@ -39,7 +39,7 @@ public class ObstacleGenerator {
             rightObstacles.get(i).applyPhysics(physics);
 
             // check if the obstacle is off screen now
-            if (leftObstacles.get(i).offScreen()) {
+            if (leftObstacles.get(i).pos.y > outerBounds.y + 1000) {
                 // if it is, remove it and generate new obstacles
                 int height = leftObstacles.get(i).getDims().y;
                 totalGenerated -= height;
@@ -48,13 +48,15 @@ public class ObstacleGenerator {
                 regenerate();
             }
         }
-        for (int i = otherObstacles.size() - 1; i >=0; i--) {
+        for (int i = otherObstacles.size() - 1; i >= 0; i--) {
             Obstacle o = otherObstacles.get(i);
-            if(o.offScreen())
-                otherObstacles.remove(i);
+//            if(o.pos.y > outerBounds.y + 1000)
+//                otherObstacles.remove(i);
             o.applyPhysics(physics);
         }
     }
+
+    private static int count = 0;
 
     // Returns null on fatal collision or if bounces is already null
     private List<Vector2<Integer>> getListBounces(List<Obstacle> obstacles, Ball b, PhysicsState phys, List<Vector2<Integer>> bounces) {
@@ -91,8 +93,19 @@ public class ObstacleGenerator {
         return bounces;
     }
 
+    public void drawShadow(Canvas c) {
+        for (Obstacle o : otherObstacles) {
+            o.drawShadow(c);
+        }
+        for (int i = 0; i < leftObstacles.size(); i++) {
+            leftObstacles.get(i).drawShadow(c);
+            rightObstacles.get(i).drawShadow(c);
+        }
+    }
+
     // draw the obstacles
     public void draw (Canvas c) {
+
         for (Obstacle o : otherObstacles) {
             o.draw(c);
         }
@@ -107,21 +120,27 @@ public class ObstacleGenerator {
         This will generate new obstacles until we meet our pre-rendered requirement
      */
     private void regenerate () {
-        while (true) {
-            if (totalGenerated >= totalHeightGen) break;
-            Point newObjDims = new Point(genBaseWidth + rand.nextInt(genBaseWidthAddition), genBaseHeight + rand.nextInt(genBaseHeightAddition));
+        while (totalGenerated < totalHeightGen) {
+            Point newObjDims = new Point(genBaseWidth + genBaseWidthAddition/2, genBaseHeight + genBaseHeightAddition/2);
             double rightX = outerBounds.x - newObjDims.x;
             double y = leftObstacles.get(leftObstacles.size() - 1).getPos().y - newObjDims.y;
-            RectObstacle leftObj = new RectObstacle(0, y, newObjDims, outerBounds);
-            RectObstacle rightObj = new RectObstacle(rightX, y, newObjDims, outerBounds);
+            Wall leftObj = new Wall(0, y, newObjDims);
+            Wall rightObj = new Wall(rightX, y, newObjDims);
             totalGenerated += newObjDims.y;
             leftObstacles.add(leftObj);
             rightObstacles.add(rightObj);
 
             Log.d("202", "Gen centre obstacle: " + (rightX / 2 - newObjDims.x/2) + " " + y + " " + newObjDims.x + " " + newObjDims.y);
-            RectObstacle centreObstacle = new RectObstacle(rightX / 2 - newObjDims.x/2, y, newObjDims, outerBounds);
-            centreObstacle.deadly = true;
-            otherObstacles.add(centreObstacle);
+            if((count % 2) != 1) {
+
+                Point dims = new Point((int)(outerBounds.x * 0.6), newObjDims.y);
+                Water centreObstacle = new Water(count % 4 == 0 ? 0 : outerBounds.x * 0.3, y, dims);
+                otherObstacles.add(centreObstacle);
+            } else {
+                Log.d("202", "Ignoring");
+            }
+            count++;
+
         }
     }
 
@@ -135,10 +154,10 @@ public class ObstacleGenerator {
         GenBounds gb = new GenBounds(outerBounds, totalHeightGen);
         // Generates new obstacles on either side of the screen until it has generated a certain height of objects
         while (!gb.enoughAlready()) {
-            Point newObjDims = new Point(genBaseWidth + rand.nextInt(genBaseWidthAddition), genBaseHeight + rand.nextInt(genBaseHeightAddition));
+            Point newObjDims = new Point(genBaseWidth + genBaseWidthAddition/2, genBaseHeight + genBaseHeightAddition/2);
             gb.setGenParams(newObjDims);
-            RectObstacle leftObj = new RectObstacle(0, gb.y(), newObjDims, outerBounds);
-            RectObstacle rightObj = new RectObstacle(gb.xMax(), gb.y(), newObjDims, outerBounds);
+            Wall leftObj = new Wall(0, gb.y(), newObjDims);
+            Wall rightObj = new Wall(gb.xMax(), gb.y(), newObjDims);
             leftObstacles.add(leftObj);
             rightObstacles.add(rightObj);
         }

@@ -51,8 +51,8 @@ public class GameState extends View {
     private void init() {
         DisplayMetrics metrics = parentC.getResources().getDisplayMetrics();
         this.screenDims = new Point(metrics.widthPixels, metrics.heightPixels);
-        ball = new Ball( screenDims.x / 2, screenDims.y * 0.85, 40, Color.BLACK);
-        physics = new PhysicsState(25.0f, 100.0f, 0.993, 0.8, 0.002, screenDims);
+        ball = new Ball( screenDims.x / 2, screenDims.y * 0.85, 40, Color.WHITE);
+        physics = new PhysicsState(20.0f, 30.0f, 0.993, 0.6, 0.001, screenDims);
         gener = new ObstacleGenerator(screenDims);
     }
 
@@ -65,7 +65,7 @@ public class GameState extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawColor(Color.WHITE);
+        canvas.drawColor(Color.GREEN);
         if(!physics.isStopped()) {
             physics.doPhysicsUpdate();
             ball.applyPhysics(physics);
@@ -74,6 +74,8 @@ public class GameState extends View {
             if (bounces == null) {
                 // TODO Die
                 Log.d("202", "Collided with fatal object");
+                gener.drawShadow(canvas);
+                ball.drawShadow(canvas);
                 gener.draw(canvas);
                 ball.draw(canvas);
                 physics.stop();
@@ -88,6 +90,8 @@ public class GameState extends View {
         // TODO: Check .onScreen() -> yes, draw -> no, no-draw.
         // TODO: Course generator class, handling all of the procedural shit
         invalidate();
+        gener.drawShadow(canvas);
+        ball.drawShadow(canvas);
         gener.draw(canvas);
         ball.draw(canvas);
     }

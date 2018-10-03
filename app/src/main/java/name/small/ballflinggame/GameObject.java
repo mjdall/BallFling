@@ -22,4 +22,6 @@ public abstract class GameObject {
     public abstract void applyPhysics(PhysicsState phys);
 
     public abstract void draw(Canvas c);
+
+    public abstract void drawShadow(Canvas c);
 }

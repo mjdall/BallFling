@@ -16,13 +16,14 @@ public class PhysicsState {
     private double bounciness;
     private double flingDampening;
 
-    private double stopTolerance = 5;
+    private double stopTolerance = 2.5;
 
     private double maxVx;
     private double maxVy;
+    private double maxV;
     private double maxAccl = 5;
 
-    private final double accelerometerSpeedUp = 1.5;
+    private final double accelerometerSpeedUp = 1.7;
 
     private Point bounds;
 
@@ -38,6 +39,7 @@ public class PhysicsState {
         vel = new Vector2<>(0.0, 0.0);
         this.maxVx = maxVx;
         this.maxVy = maxVy;
+        maxV = Math.sqrt(maxVx*maxVx+maxVy*maxVy);
         // Clamp to range 0-1
         this.friction = Clamp01(friction);
         this.bounciness = Clamp01(bounciness);
@@ -49,8 +51,6 @@ public class PhysicsState {
         // Ignore flings while moving
         // Ignore flings backwards
         if (!isStopped()) return;
-
-        if(vY > 0) vY = 0;
 
         vel.x = Clamp(vX * flingDampening, -maxVx, maxVx);
         vel.y = Clamp(vY * flingDampening, -maxVy, maxVy);
@@ -128,8 +128,7 @@ public class PhysicsState {
 
         if(isStopped()) {
             Log.d("202", "Stopped");
-            vel.x = 0.0;
-            vel.y = 0.0;
+            stop();
         }
 
     }
@@ -137,7 +136,7 @@ public class PhysicsState {
     public void handleAccelerometer (float input) {
         if (!isStopped()) {
             vel.x -= acclVel;
-            acclVel = Clamp((double) -input * accelerometerSpeedUp, -maxAccl, maxAccl);
+            acclVel = Clamp((double) -input * accelerometerSpeedUp * (Math.sqrt(vel.x*vel.x+vel.y*vel.y)/maxV), -maxAccl, maxAccl);
             if(vel.x + acclVel > maxVx) {
                 acclVel = maxVx - vel.x;
             } else if(vel.x + acclVel < -maxVx) {
