@@ -1,60 +1,25 @@
 package name.small.ballflinggame;
 
-import android.graphics.Canvas;
 import android.graphics.Point;
 
-public class WaterBridge extends TrackPiece {
+public class WaterBridge extends TrackBlueprint {
+    private final int wallWidth = 50;
 
-    public WaterBridge (double xPos, double yPos, Point screenDims) {
-        super(xPos, yPos, screenDims);
+    public WaterBridge (Point screenDims) {
+        super(screenDims, 2000);
     }
 
     @Override
-    protected void setUpTrack () {
-        double x = pos.x; // where we are right now
-        double y = pos.y;
-        Point leftSide2ndXY = new Point(thirdSlice.x, (int) y + screenDims.y);
-        Point rightSide2ndXY = new Point(screenDims.x, (int) y + screenDims.y);
-        RectObstacle leftSide = new RectObstacle(x, y, leftSide2ndXY, screenDims, Pit.PitType.Water);
-        RectObstacle rightSide = new RectObstacle(screenDims.x - thirdSlice.x, y, rightSide2ndXY, screenDims, Pit.PitType.Water);
-        toDraw.add(leftSide);
-        toDraw.add(rightSide);
+    protected void setObs () {
+        Point waterWidth = new Point (thirdConstants.x - wallWidth, height);
+        Water wa1 = new Water(0.0, 0.0, waterWidth);
+        Water wa2 = new Water(thirdConstants.x * 2 + wallWidth, 0.0, waterWidth);
+        Wall wall1 = new Wall((double) waterWidth.x, 0.0, new Point(wallWidth, height));
+        Wall wall2 = new Wall((double) thirdConstants.x * 2, 0.0, new Point(wallWidth, height));
+        addToObs(wa1);
+        addToObs(wa2);
+        addToObs(wall1);
+        addToObs(wall2);
     }
 
-    @Override
-    protected void setUpTrackSpecs () {
-        trackPieceDims = new Point(screenDims.x, 3500);
-    }
-
-    @Override
-    public void draw (Canvas c) {
-        for (Obstacle o : toDraw) {
-            o.draw(c);
-        }
-    }
-
-    @Override
-    public void applyPhysics (PhysicsState physics) {
-        pos = physics.obstacleUpdatePos(pos);
-        for (Obstacle o : toDraw) {
-            o.applyPhysics(physics);
-        }
-    }
-
-    @Override
-    protected void setUpCanGenerateArray () {
-        try {
-            TrackPiece wb = new WaterBridge(0.0, 0.0, this.screenDims);
-            canGenerate.add(wb);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public Vector2<Integer> getBounceDir (Ball b, PhysicsState physics) {
-        Vector2<Integer> bounceDir = new Vector2<>(0,0);
-        return bounceDir;
-    }
 }
