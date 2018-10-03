@@ -9,6 +9,8 @@ public class Ball extends GameObject {
 
     private double radius;
     private Paint paint;
+    private Paint shadow;
+
 
     public double getRadius() {
         return radius;
@@ -19,11 +21,20 @@ public class Ball extends GameObject {
         this.radius = radius;
         this.paint = new Paint();
         this.paint.setColor(colour);
+        shadow = new Paint();
+        shadow.setColor(Color.BLACK & 0x8FFFFFFF);
     }
 
     @Override
     public void applyPhysics(PhysicsState phys) {
         pos = phys.ballUpdatePos(this);
+    }
+
+    @Override
+    public void drawShadow(Canvas c) {
+        double x = pos.x;
+        double y = pos.y;
+        c.drawCircle((float)x + 10, (float)y - 10, (float)this.radius, shadow);
     }
 
     @Override

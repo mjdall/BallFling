@@ -7,7 +7,6 @@ import android.util.Log;
 public abstract class Obstacle extends GameObject {
 
     protected boolean deadly;
-    protected Point outerBounds;
     protected Collider collider;
     protected Point obstacleDims;
 
@@ -15,10 +14,10 @@ public abstract class Obstacle extends GameObject {
         return deadly;
     }
 
-    public Obstacle(double xPos, double yPos, Point obstacleDims, Point outerBounds, Collider collider) {
+    public Obstacle(double xPos, double yPos, Point obstacleDims, boolean deadly, Collider collider) {
         super(xPos, yPos);
+        this.deadly = deadly;
         this.obstacleDims = obstacleDims;
-        this.outerBounds = outerBounds;
         this.collider = collider;
     }
 
@@ -38,10 +37,6 @@ public abstract class Obstacle extends GameObject {
     // updates pos from phy to be -vY
     public void applyPhysics(PhysicsState phys) {
         updatePos(phys.obstacleUpdatePos(pos));
-    }
-
-    public boolean offScreen () {
-        return pos.y > outerBounds.y;
     }
 
     public Point getDims () {
