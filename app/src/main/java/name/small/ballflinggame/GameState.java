@@ -1,6 +1,8 @@
 package name.small.ballflinggame;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -56,6 +58,23 @@ public class GameState extends View {
         generator = new TrackGenerator(screenDims);
     }
 
+    private Activity getActivity() {
+        Context context = getContext();
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity)context;
+            }
+            context = ((ContextWrapper)context).getBaseContext();
+        }
+        return null;
+    }
+
+    private void die() {
+
+        Activity host = (Activity) this.getContext();
+        host.recreate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -66,14 +85,8 @@ public class GameState extends View {
             generator.doPhysicsOnObstacles(physics);
             List<Vector2<Integer>> bounces = generator.getBounces(ball, physics);
             if (bounces == null) {
-                // TODO Die
                 Log.d("202", "Collided with fatal object");
-                generator.drawShadow(canvas);
-                ball.drawShadow(canvas);
-                generator.draw(canvas);
-                ball.draw(canvas);
-                physics.stop();
-                return;
+                die();
             }
             physics.doBounces(bounces);
         }
