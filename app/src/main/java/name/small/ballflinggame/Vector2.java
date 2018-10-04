@@ -8,4 +8,16 @@ public class Vector2<E> {
         this.x = x;
         this.y = y;
     }
+
+    @Override
+    public String toString () {
+        try {
+            String x = this.x.toString();
+            String y = this.y.toString();
+
+            return String.format("x:%s, y:%s", x, y);
+        } catch (Exception e) {
+            return "Vector type is not Double";
+        }
+    }
 }

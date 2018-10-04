@@ -17,7 +17,7 @@ public class GameState extends View {
     private Ball ball;
     private Context parentC;
     private Point screenDims;
-    private ObstacleGenerator gener;
+    private TrackGenerator generator;
     // TODO: Create a list of screen objects here
     // TODO: Create draw methods for screen objects
     // TODO: Implement bouncing off of the objects rendered on the screen
@@ -53,15 +53,9 @@ public class GameState extends View {
         this.screenDims = new Point(metrics.widthPixels, metrics.heightPixels);
         ball = new Ball( screenDims.x / 2, screenDims.y * 0.85, 40, Color.WHITE);
         physics = new PhysicsState(20.0f, 30.0f, 0.993, 0.6, 0.001, screenDims);
-        gener = new ObstacleGenerator(screenDims);
+        generator = new TrackGenerator(screenDims);
     }
 
-    // TODO: Add points for passing over point line
-    // TODO: Add points textview
-    // TODO: Add music
-    // TODO: Add collisions lul
-    // TODO: Add more obstacles
-    // TODO: Add death
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -69,30 +63,24 @@ public class GameState extends View {
         if(!physics.isStopped()) {
             physics.doPhysicsUpdate();
             ball.applyPhysics(physics);
-            gener.doPhysicsOnObstacles(physics);
-            List<Vector2<Integer>> bounces = gener.getBounces(ball, physics);
+            generator.doPhysicsOnObstacles(physics);
+            List<Vector2<Integer>> bounces = generator.getBounces(ball, physics);
             if (bounces == null) {
                 // TODO Die
                 Log.d("202", "Collided with fatal object");
-                gener.drawShadow(canvas);
+                generator.drawShadow(canvas);
                 ball.drawShadow(canvas);
-                gener.draw(canvas);
+                generator.draw(canvas);
                 ball.draw(canvas);
                 physics.stop();
                 return;
             }
             physics.doBounces(bounces);
         }
-        // TODO: Loop through screen objects here, applying physics to them
-        // TODO: Apply physics, check in class if dead now
-        // TODO: In here, check isDead, if dead remove from list, generate new object offscreen?
-        // TODO: Should just be able to hold their position off screen but not actually render them until they should be on screen
-        // TODO: Check .onScreen() -> yes, draw -> no, no-draw.
-        // TODO: Course generator class, handling all of the procedural shit
         invalidate();
-        gener.drawShadow(canvas);
+        generator.drawShadow(canvas);
         ball.drawShadow(canvas);
-        gener.draw(canvas);
+        generator.draw(canvas);
         ball.draw(canvas);
     }
 }

@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.support.constraint.solver.widgets.Rectangle;
 import android.util.Log;
 
 import java.util.Random;
@@ -11,11 +12,23 @@ import java.util.Random;
 public abstract class RectObstacle extends Obstacle {
     private Paint p;
     private Paint shadow;
+    private boolean shadowOff = false;
 
 
-    // TODO: Implement object dims being set on creation of this method so we know it's set
+    // TODO:
     public RectObstacle (double xPos, double yPos, Point obstacleDims, boolean deadly, int colour) {
         super(xPos, yPos, obstacleDims, deadly, new RectCollider(xPos, yPos, obstacleDims.x, obstacleDims.y));
+        init(colour);
+    }
+
+    // TODO:
+    public RectObstacle (double xPos, double yPos, Point obstacleDims, boolean deadly, int colour, boolean shadow) {
+        super(xPos, yPos, obstacleDims, deadly, new RectCollider(xPos, yPos, obstacleDims.x, obstacleDims.y));
+        init(colour);
+        this.shadowOff = shadow;
+    }
+
+    public void init (int colour) {
         p = new Paint();
         p.setColor(colour);
         shadow = new Paint();
@@ -31,6 +44,7 @@ public abstract class RectObstacle extends Obstacle {
 
     @Override
     public void drawShadow(Canvas c) {
+        if (shadowOff) return;
         double x = pos.x;
         double y = pos.y;
         if (y + obstacleDims.y < 0) return;
