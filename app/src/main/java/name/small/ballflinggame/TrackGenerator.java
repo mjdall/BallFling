@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.Random;
 
 public class TrackGenerator {
-    private final int offScreenHeightGen = 5000;
+    private final int offScreenHeightGen;
     private final int totalToGen;
     private int heightGenerated;
     private Point screenDims;
 
+
+    private OutOfBoundsObstacle outOfBoundsObstacle;
     private ArrayList<TrackSegment> trackSegments;
     private ArrayList<TrackBlueprint> blueprints;
 
@@ -21,10 +23,12 @@ public class TrackGenerator {
         this.screenDims = screenDims;
         this.trackSegments = new ArrayList<>();
         this.heightGenerated = 0;
+        this.offScreenHeightGen = screenDims.y * 2;
         this.totalToGen = screenDims.y + offScreenHeightGen * 2;
         blueprints = new ArrayList<>();
         setBlueprints();
         generateBaseSpawn();
+        outOfBoundsObstacle = new OutOfBoundsObstacle(screenDims, screenDims.y * 1.5);
     }
 
     public void doPhysicsOnObstacles (PhysicsState physics) {
@@ -44,6 +48,8 @@ public class TrackGenerator {
         if(!toRemove.isEmpty()) {
             regenerate();
         }
+
+        outOfBoundsObstacle.applyPhysics(physics);
     }
 
     private void regenerate () {
@@ -61,12 +67,19 @@ public class TrackGenerator {
     public void drawShadow (Canvas canvas) {
         for (TrackSegment ts : trackSegments)
             ts.drawShadow(canvas);
+
+        outOfBoundsObstacle.drawShadow(canvas);
     }
 
     // Returns null on fatal collision or if bounces is already null
     private List<Vector2<Integer>> getListBounces(List<Obstacle> obstacles, Ball b, PhysicsState phys, List<Vector2<Integer>> bounces) {
         if(bounces == null) // Propagate previous failure here for cleanliness
             return null;
+
+        // Check if player has gone too far backwards
+        if(outOfBoundsObstacle.checkCollision(b) == Collider.CollisionType.Internal)
+            return null;
+
         for (Obstacle o : obstacles) {
             Collider.CollisionType collisionType = o.checkCollision(b);
             if(collisionType != Collider.CollisionType.None) {
@@ -99,6 +112,8 @@ public class TrackGenerator {
     public void draw (Canvas canvas) {
         for (TrackSegment ts : trackSegments)
             ts.draw(canvas);
+
+        outOfBoundsObstacle.draw(canvas);
     }
 
     private void setBlueprints () {
