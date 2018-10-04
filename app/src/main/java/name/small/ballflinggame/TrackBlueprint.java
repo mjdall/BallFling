@@ -20,6 +20,9 @@ abstract class TrackBlueprint {
     protected final int HIGH_PRIORITY = 10;
     protected final int MED_PRIORITY = 5;
     protected final int LOW_PRIORITY = 0;
+    protected final int MIN_PRIORITY = Integer.MIN_VALUE; // Only used for background graphics
+
+    private boolean obsSet;
 
     public TrackBlueprint (Point screenDimensions, int height) {
         this.obstacles = new ArrayList<>();
@@ -27,7 +30,7 @@ abstract class TrackBlueprint {
         this.height = height;
         drawPriority = new ArrayList<>();
         setConsts();
-        setObs();
+        obsSet = false;
     }
 
     abstract void setObs (); // method for designing how everything is layed out
@@ -52,6 +55,13 @@ abstract class TrackBlueprint {
     }
 
     public Obstacle pop (double yPos) {
+        if(!obsSet) // Generate obstacles on demand
+        {
+            obstacles = new ArrayList<>();
+            setObs();
+            obsSet = true;
+        }
+
         if (obstacles.size() == 0) { obstacles = new ArrayList<>(); setObs(); return null; }
         Obstacle o = obstacles.get(0);
         o.updatePos(new Vector2<>(o.pos.x, o.pos.y + yPos));

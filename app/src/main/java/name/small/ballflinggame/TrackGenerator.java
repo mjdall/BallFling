@@ -34,20 +34,17 @@ public class TrackGenerator {
     public void doPhysicsOnObstacles (PhysicsState physics) {
         Log.d("202", String.format("SegmentArraySize: %s", Integer.toString(trackSegments.size())));
         List<TrackSegment> toRemove = new ArrayList<>();
-        for (TrackSegment ts : trackSegments) {
+        for (int i = trackSegments.size() -1; i >= 0; i-- ) { // Reverse order to allow removing
+            TrackSegment ts = trackSegments.get(i);
             Log.d("202", String.format("Segment loc: x:%s, y:%s", ts.pos.x, ts.pos.y));
             ts.applyPhysics(physics);
             if (ts.getYPos() > offScreenHeightGen) {
                 heightGenerated -= ts.getHeight();
-                toRemove.add(ts);
+                trackSegments.remove(ts);
+                regenerate();
             }
         }
-        for(TrackSegment ts : toRemove) {
-            trackSegments.remove(ts);
-        }
-        if(!toRemove.isEmpty()) {
-            regenerate();
-        }
+
 
         outOfBoundsObstacle.applyPhysics(physics);
     }
@@ -65,8 +62,10 @@ public class TrackGenerator {
     }
 
     public void drawShadow (Canvas canvas) {
-        for (TrackSegment ts : trackSegments)
+        for (int i = trackSegments.size() -1; i >= 0; i-- ) { // Reverse order to get correct draw order
+            TrackSegment ts = trackSegments.get(i);
             ts.drawShadow(canvas);
+        }
 
         outOfBoundsObstacle.drawShadow(canvas);
     }
@@ -127,8 +126,10 @@ public class TrackGenerator {
     }
 
     public void draw (Canvas canvas) {
-        for (TrackSegment ts : trackSegments)
+        for (int i = trackSegments.size() - 1; i >= 0; i--) { // Reverse order to get correct draw order
+            TrackSegment ts = trackSegments.get(i);
             ts.draw(canvas);
+        }
 
         outOfBoundsObstacle.draw(canvas);
     }
@@ -136,8 +137,10 @@ public class TrackGenerator {
     private void setBlueprints () {
         WaterBridge wb = new WaterBridge(screenDims);
         BrokenBridge bb = new BrokenBridge(screenDims);
+        IceBridge ib = new IceBridge(screenDims);
         blueprints.add(wb);
         blueprints.add(bb);
+        blueprints.add(ib);
     }
 
     private void generateBaseSpawn () {

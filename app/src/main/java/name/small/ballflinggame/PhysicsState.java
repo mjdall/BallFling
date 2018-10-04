@@ -22,9 +22,11 @@ public class PhysicsState {
     private double maxVx;
     private double maxVy;
     private double maxV;
-    private double maxAccl = 5;
+    private double maxAcclBase = 5;
+    private double maxAccl = maxAcclBase;
 
-    private final double accelerometerSpeedUp = 1.7;
+    private final double accelerometerSpeedUpBase = 1.7;
+    private double getAccelerometerSpeedUpActive;
 
     private double distanceTravelled = 0.0;
 
@@ -49,14 +51,16 @@ public class PhysicsState {
         this.bounciness = Clamp01(bounciness);
         this.flingDampening = flingDampening;
         this.bounds = bounds;
+
+        this.getAccelerometerSpeedUpActive = accelerometerSpeedUpBase;
     }
 
     public void applyFling(double vX, double vY) {
         // Ignore flings while moving
-        //if (!isStopped()) return;
+        if (!isStopped()) return;
 
-        vel.x += Clamp(vX * flingDampening, -maxVx, maxVx);
-        vel.y += Clamp(vY * flingDampening, -maxVy, maxVy);
+        vel.x = Clamp(vX * flingDampening, -maxVx, maxVx);
+        vel.y = Clamp(vY * flingDampening, -maxVy, maxVy);
         Log.d("physics", String.format("xvel: %.05f, yvel: %.05f", vel.x, vel.y));
     }
 
@@ -109,29 +113,24 @@ public class PhysicsState {
     }
 
     public void doStatusAffects(List<StatusAffect> statusAffects) {
-        boolean speedType = false;
+        activeFriction = baseFriction;
+        getAccelerometerSpeedUpActive = accelerometerSpeedUpBase;
+        maxAccl = maxAcclBase;
+        // If affects override each other then last one takes affect
         for(StatusAffect statusAffect : statusAffects) {
             switch (statusAffect) {
                 case SAND:
-                    if(speedType) {
-                        break; // Ignore. Use first speed affector found
-                    }
-                    speedType = true;
                     activeFriction = 0.7;
+                    getAccelerometerSpeedUpActive = 0.0;
                     break;
                 case LONG_GRASS:
-                    if(speedType) {
-                        break; // Ignore. Use first speed affector found
-                    }
-                    speedType = true;
                     activeFriction = 0.9;
+                    getAccelerometerSpeedUpActive = 0.0;
                     break;
                 case ICE:
-                    if(speedType) {
-                        break; // Ignore. Use first speed affector found
-                    }
-                    speedType = true;
                     activeFriction = 0.999;
+                    getAccelerometerSpeedUpActive = 10.0;
+                    maxAccl = 100.0;
                     break;
             }
         }
@@ -158,7 +157,6 @@ public class PhysicsState {
         acclVel *= this.activeFriction;
         vel.x *= this.activeFriction;
         vel.y *= this.activeFriction;
-        this.activeFriction = this.baseFriction; // Affector applied. Ignore
         // Log.d("physics", String.format("xvel: %.05f, yvel: %.05f", vel.x, vel.y));
 
         if(isStopped()) {
@@ -171,7 +169,7 @@ public class PhysicsState {
     public void handleAccelerometer (float input) {
         if (!isStopped()) {
             vel.x -= acclVel;
-            acclVel = Clamp((double) -input * accelerometerSpeedUp * (Math.sqrt(vel.x*vel.x+vel.y*vel.y)/maxV), -maxAccl, maxAccl);
+            acclVel = Clamp((double) -input * getAccelerometerSpeedUpActive * (Math.sqrt(vel.x*vel.x+vel.y*vel.y)/maxV), -maxAccl, maxAccl);
             if(vel.x + acclVel > maxVx) {
                 acclVel = maxVx - vel.x;
             } else if(vel.x + acclVel < -maxVx) {

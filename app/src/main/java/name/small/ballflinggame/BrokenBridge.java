@@ -7,7 +7,7 @@ import java.util.Random;
 public class BrokenBridge extends WaterBridge {
 
     public BrokenBridge (Point screenDims) {
-        super(screenDims);
+        super(screenDims, true);
     }
 
     @Override
@@ -15,10 +15,10 @@ public class BrokenBridge extends WaterBridge {
         super.setObs();
         Random rand = new Random();
         Point waterWidth = new Point (thirdConstants.x - wallWidth, height);
-        Sand brokenBridgeW1 = new Sand( waterWidth.x,
+        Obstacle brokenBridgeW1 = new Water( waterWidth.x,
                 rand.nextInt(halfConstants.y - sixthConstants.y),
                 new Point(sixthConstants.x, sixthConstants.x));
-        Sand brokenBridgeW2 = new Sand( thirdConstants.x * 2 - sixthConstants.x + wallWidth,
+        Obstacle brokenBridgeW2 = new Water( thirdConstants.x * 2 - sixthConstants.x + wallWidth,
                 height - rand.nextInt(halfConstants.y + sixthConstants.y),
                 new Point(sixthConstants.x, sixthConstants.x));
         addToObs(brokenBridgeW1, LOW_PRIORITY - 1); // Draw under outer water
