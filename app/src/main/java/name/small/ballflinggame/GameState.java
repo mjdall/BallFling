@@ -70,7 +70,6 @@ public class GameState extends View {
     }
 
     private void die() {
-
         Activity host = (Activity) this.getContext();
         host.recreate();
     }
@@ -86,7 +85,10 @@ public class GameState extends View {
             List<Vector2<Integer>> bounces = generator.getBounces(ball, physics);
             if (bounces == null) {
                 Log.d("202", "Collided with fatal object");
+                Log.d("202", "Distance travelled: " + physics.getDistanceTravelled());
+                // TODO Update high score using distance travelled
                 die();
+                return;
             }
             physics.doBounces(bounces);
         }

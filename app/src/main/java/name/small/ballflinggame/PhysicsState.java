@@ -25,6 +25,8 @@ public class PhysicsState {
 
     private final double accelerometerSpeedUp = 1.7;
 
+    private double distanceTravelled = 0.0;
+
     private Point bounds;
 
     private static double Clamp(double val, double min, double max) {
@@ -69,6 +71,8 @@ public class PhysicsState {
     public Vector2<Double> ballUpdatePos(Ball ball) {
         Vector2<Double> pos = ball.pos;
         pos.x += vel.x;
+        distanceTravelled += (-vel.y);
+
 
         // Bounce off edge of screen
         // Should never happen
@@ -155,5 +159,9 @@ public class PhysicsState {
 
     public boolean isStopped() {
         return Math.abs(vel.x - acclVel) <= stopTolerance && Math.abs(vel.y) <= stopTolerance;
+    }
+
+    public double getDistanceTravelled() {
+        return distanceTravelled;
     }
 }
