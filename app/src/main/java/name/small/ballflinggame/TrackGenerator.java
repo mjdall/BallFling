@@ -50,7 +50,7 @@ public class TrackGenerator {
         Random rand = new Random();
         double yPosGen = trackSegments.get(trackSegments.size() - 1).getYPos();
         while (heightGenerated <= totalToGen) {
-            TrackBlueprint tb = blueprints.get(1);//rand.nextInt(blueprints.size()));
+            TrackBlueprint tb = blueprints.get(rand.nextInt(blueprints.size()));
             yPosGen -= tb.getHeight();
             TrackSegment ts = new TrackSegment(0.0, yPosGen, screenDims, tb );
             trackSegments.add(ts);
@@ -65,7 +65,7 @@ public class TrackGenerator {
 
     // Returns null on fatal collision or if bounces is already null
     private List<Vector2<Integer>> getListBounces(List<Obstacle> obstacles, Ball b, PhysicsState phys, List<Vector2<Integer>> bounces) {
-        if(bounces == null) // Propogate previous failure here for cleanliness
+        if(bounces == null) // Propagate previous failure here for cleanliness
             return null;
         for (Obstacle o : obstacles) {
             Collider.CollisionType collisionType = o.checkCollision(b);

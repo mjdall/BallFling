@@ -13,7 +13,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class GameActiviy extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity {
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private AccelerometerListener listener;
