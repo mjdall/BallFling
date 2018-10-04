@@ -50,7 +50,7 @@ public class TrackGenerator {
         Random rand = new Random();
         double yPosGen = trackSegments.get(trackSegments.size() - 1).getYPos();
         while (heightGenerated <= totalToGen) {
-            TrackBlueprint tb = blueprints.get(rand.nextInt(blueprints.size()));
+            TrackBlueprint tb = blueprints.get(1);//rand.nextInt(blueprints.size()));
             yPosGen -= tb.getHeight();
             TrackSegment ts = new TrackSegment(0.0, yPosGen, screenDims, tb );
             trackSegments.add(ts);

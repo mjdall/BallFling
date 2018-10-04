@@ -4,32 +4,24 @@ import android.graphics.Point;
 
 import java.util.Random;
 
-public class BrokenBridge extends TrackBlueprint {
-    private final int wallWidth = 50;
+public class BrokenBridge extends WaterBridge {
 
     public BrokenBridge (Point screenDims) {
-        super(screenDims, 2000);
+        super(screenDims);
     }
 
     @Override
     protected void setObs () {
+        super.setObs();
         Random rand = new Random();
         Point waterWidth = new Point (thirdConstants.x - wallWidth, height);
-        Water wa1 = new Water(0.0, 0.0, waterWidth);
-        Water wa2 = new Water(thirdConstants.x * 2 + wallWidth, 0.0, waterWidth);
         Water brokenBridgeW1 = new Water( waterWidth.x,
                 rand.nextInt(halfConstants.y - sixthConstants.y),
-                new Point(sixthConstants.x, sixthConstants.x), true);
+                new Point(sixthConstants.x, sixthConstants.x));
         Water brokenBridgeW2 = new Water( thirdConstants.x * 2 - sixthConstants.x + wallWidth,
                 height - rand.nextInt(halfConstants.y + sixthConstants.y),
-                new Point(sixthConstants.x, sixthConstants.x), true);
-        Wall wall1 = new Wall(waterWidth.x, 0.0, new Point(wallWidth, height));
-        Wall wall2 = new Wall(thirdConstants.x * 2, 0.0, new Point(wallWidth, height));
-        addToObs(wa1);
-        addToObs(wa2);
-        addToObs(wall1);
-        addToObs(wall2);
-        addToObs(brokenBridgeW1);
-        addToObs(brokenBridgeW2);
+                new Point(sixthConstants.x, sixthConstants.x));
+        addToObs(brokenBridgeW1, LOW_PRIORITY - 1); // Draw under outer water
+        addToObs(brokenBridgeW2, LOW_PRIORITY - 1);
     }
 }
