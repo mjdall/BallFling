@@ -42,4 +42,6 @@ public abstract class Obstacle extends GameObject {
     public Point getDims () {
         return obstacleDims;
     }
+
+    public StatusAffect getStatusAffect() { return StatusAffect.NONE; }
 }

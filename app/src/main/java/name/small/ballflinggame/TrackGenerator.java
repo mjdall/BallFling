@@ -72,8 +72,8 @@ public class TrackGenerator {
     }
 
     // Returns null on fatal collision or if bounces is already null
-    private List<Vector2<Integer>> getListBounces(List<Obstacle> obstacles, Ball b, PhysicsState phys, List<Vector2<Integer>> bounces) {
-        if(bounces == null) // Propagate previous failure here for cleanliness
+    private PhysicsAffects getListPhysicsAffects(List<Obstacle> obstacles, Ball b, PhysicsState phys, PhysicsAffects affects) {
+        if(affects == null) // Propagate previous failure here for cleanliness
             return null;
 
         // Check if player has gone too far backwards
@@ -85,28 +85,45 @@ public class TrackGenerator {
             if(collisionType != Collider.CollisionType.None) {
                 Log.d("202", "Normal Obstacle:" + o.toString());
                 if(o.isDeadly()) {
-                    if(collisionType == Collider.CollisionType.Internal) // Die if past point of no return
+                    // Die if past point of no return
+                    if (collisionType == Collider.CollisionType.Internal)
                         return null;
                     else
                         continue;
                 }
+
+                StatusAffect statusAffect = o.getStatusAffect();
+                if(statusAffect != StatusAffect.NONE) {
+                    if(collisionType == Collider.CollisionType.Internal)
+                        affects.statusAffects.add(statusAffect);
+                    continue;
+                }
+
                 Vector2<Integer> bounce = o.getBounceDir(b, phys);
                 if(bounce != null) {
                     Log.d("202", "Bounce: " + bounce.x + " " + bounce.y);
-                    bounces.add(bounce);
+                    affects.bounces.add(bounce);
                 }
             }
         }
-        return bounces;
+        return affects;
+    }
+
+    public class PhysicsAffects {
+        public List<Vector2<Integer>> bounces;
+        public List<StatusAffect> statusAffects;
     }
 
     // Returns null on fatal collision
-    public List<Vector2<Integer>> getBounces(Ball b, PhysicsState phys) {
-        List<Vector2<Integer>> bounces = new ArrayList<>();
-        for (TrackSegment ts : trackSegments)
-            bounces = getListBounces(ts.getObstacles(), b, phys, bounces);
+    public PhysicsAffects getPhysicsAffects(Ball b, PhysicsState phys) {
+        PhysicsAffects physicsAffects = new PhysicsAffects();
+        physicsAffects.bounces = new ArrayList<>();
+        physicsAffects.statusAffects = new ArrayList<>();
+        for (TrackSegment ts : trackSegments) {
+            physicsAffects = getListPhysicsAffects(ts.getObstacles(), b, phys, physicsAffects);
+        }
 
-        return bounces;
+        return physicsAffects;
     }
 
     public void draw (Canvas canvas) {

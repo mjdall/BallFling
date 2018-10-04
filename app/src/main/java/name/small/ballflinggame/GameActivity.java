@@ -36,9 +36,6 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         gameState = findViewById(R.id.gameState);
-        gameState.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
         gestureDetector = new GestureDetectorCompat(this, gestureListener);
 
@@ -65,6 +62,9 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        gameState.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         sensorManager.registerListener(listener, accelerometer,
                 SensorManager.SENSOR_DELAY_NORMAL);
         Log.d("onResume", "App Resumed");

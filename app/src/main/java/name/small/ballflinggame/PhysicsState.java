@@ -12,7 +12,8 @@ public class PhysicsState {
     private Vector2<Double> vel;
     private double acclVel = 0.0;
 
-    private double friction;
+    private double baseFriction;
+    private double activeFriction;
     private double bounciness;
     private double flingDampening;
 
@@ -37,13 +38,14 @@ public class PhysicsState {
         return Clamp(val, 0, 1);
     }
 
-    public PhysicsState(double maxVx, double maxVy, double friction, double bounciness, double flingDampening, Point bounds) {
+    public PhysicsState(double maxVx, double maxVy, double baseFriction, double bounciness, double flingDampening, Point bounds) {
         vel = new Vector2<>(0.0, 0.0);
         this.maxVx = maxVx;
         this.maxVy = maxVy;
         maxV = Math.sqrt(maxVx*maxVx+maxVy*maxVy);
         // Clamp to range 0-1
-        this.friction = Clamp01(friction);
+        this.baseFriction = Clamp01(baseFriction);
+        this.activeFriction = this.baseFriction;
         this.bounciness = Clamp01(bounciness);
         this.flingDampening = flingDampening;
         this.bounds = bounds;
@@ -51,11 +53,10 @@ public class PhysicsState {
 
     public void applyFling(double vX, double vY) {
         // Ignore flings while moving
-        // Ignore flings backwards
-        if (!isStopped()) return;
+        //if (!isStopped()) return;
 
-        vel.x = Clamp(vX * flingDampening, -maxVx, maxVx);
-        vel.y = Clamp(vY * flingDampening, -maxVy, maxVy);
+        vel.x += Clamp(vX * flingDampening, -maxVx, maxVx);
+        vel.y += Clamp(vY * flingDampening, -maxVy, maxVy);
         Log.d("physics", String.format("xvel: %.05f, yvel: %.05f", vel.x, vel.y));
     }
 
@@ -107,6 +108,35 @@ public class PhysicsState {
         ballBounce(bounceDir);
     }
 
+    public void doStatusAffects(List<StatusAffect> statusAffects) {
+        boolean speedType = false;
+        for(StatusAffect statusAffect : statusAffects) {
+            switch (statusAffect) {
+                case SAND:
+                    if(speedType) {
+                        break; // Ignore. Use first speed affector found
+                    }
+                    speedType = true;
+                    activeFriction = 0.7;
+                    break;
+                case LONG_GRASS:
+                    if(speedType) {
+                        break; // Ignore. Use first speed affector found
+                    }
+                    speedType = true;
+                    activeFriction = 0.9;
+                    break;
+                case ICE:
+                    if(speedType) {
+                        break; // Ignore. Use first speed affector found
+                    }
+                    speedType = true;
+                    activeFriction = 0.999;
+                    break;
+            }
+        }
+    }
+
     // Applies bounciness to affected directions
     private void ballBounce(int bounceDir) {
         if(bounceDir == 0) return;
@@ -125,9 +155,10 @@ public class PhysicsState {
     }
 
     public void doPhysicsUpdate() {
-        acclVel *= friction;
-        vel.x *= friction;
-        vel.y *= friction;
+        acclVel *= this.activeFriction;
+        vel.x *= this.activeFriction;
+        vel.y *= this.activeFriction;
+        this.activeFriction = this.baseFriction; // Affector applied. Ignore
         // Log.d("physics", String.format("xvel: %.05f, yvel: %.05f", vel.x, vel.y));
 
         if(isStopped()) {

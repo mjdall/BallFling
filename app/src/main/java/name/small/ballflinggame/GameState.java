@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -82,15 +81,16 @@ public class GameState extends View {
             physics.doPhysicsUpdate();
             ball.applyPhysics(physics);
             generator.doPhysicsOnObstacles(physics);
-            List<Vector2<Integer>> bounces = generator.getBounces(ball, physics);
-            if (bounces == null) {
+            TrackGenerator.PhysicsAffects physicsAffects = generator.getPhysicsAffects(ball, physics);
+            if (physicsAffects == null) {
                 Log.d("202", "Collided with fatal object");
                 Log.d("202", "Distance travelled: " + physics.getDistanceTravelled());
                 // TODO Update high score using distance travelled
                 die();
                 return;
             }
-            physics.doBounces(bounces);
+            physics.doBounces(physicsAffects.bounces);
+            physics.doStatusAffects(physicsAffects.statusAffects);
         }
         invalidate();
         generator.drawShadow(canvas);
