@@ -97,7 +97,9 @@ public class TrackGenerator {
 
     private void setBlueprints () {
         WaterBridge wb = new WaterBridge(screenDims);
+        BrokenBridge bb = new BrokenBridge(screenDims);
         blueprints.add(wb);
+        blueprints.add(bb);
     }
 
     private void generateBaseSpawn () {

@@ -9,4 +9,8 @@ public class Water extends RectObstacle {
         super(xPos, yPos, obstacleDims, true, Color.CYAN);
     }
 
+    public Water (double xPos, double yPos, Point obstacleDims, boolean shadowOff) {
+        super(xPos, yPos, obstacleDims, true, Color.CYAN, shadowOff);
+    }
+
 }

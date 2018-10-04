@@ -13,6 +13,8 @@ abstract class TrackBlueprint {
     protected Point halfConstants;
     protected Point thirdConstants;
     protected Point fourthConstants;
+    protected Point fifthConstants;
+    protected Point sixthConstants;
 
     public TrackBlueprint (Point screenDimensions, int height) {
         this.obstacles = new ArrayList<>();
@@ -32,12 +34,14 @@ abstract class TrackBlueprint {
         halfConstants = new Point(width / 2, height / 2);
         thirdConstants = new Point(width / 3, height / 3);
         fourthConstants = new Point(width / 4, height / 4);
+        fifthConstants = new Point(width / 5, height / 5);
+        sixthConstants = new Point(width / 6, height / 6);
     }
 
     public Obstacle pop (double yPos) {
         if (obstacles.size() == 0) { obstacles = new ArrayList<>(); setObs(); return null; }
         Obstacle o = obstacles.get(0);
-        o.pos.y += yPos;
+        o.updatePos(new Vector2<>(o.pos.x, o.pos.y + yPos));
         obstacles.remove(0);
         return o;
     }
