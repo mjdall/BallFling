@@ -29,14 +29,20 @@ public class TrackGenerator {
 
     public void doPhysicsOnObstacles (PhysicsState physics) {
         Log.d("202", String.format("SegmentArraySize: %s", Integer.toString(trackSegments.size())));
+        List<TrackSegment> toRemove = new ArrayList<>();
         for (TrackSegment ts : trackSegments) {
             Log.d("202", String.format("Segment loc: x:%s, y:%s", ts.pos.x, ts.pos.y));
             ts.applyPhysics(physics);
             if (ts.getYPos() > offScreenHeightGen) {
                 heightGenerated -= ts.getHeight();
-                trackSegments.remove(ts);
-                regenerate();
+                toRemove.add(ts);
             }
+        }
+        for(TrackSegment ts : toRemove) {
+            trackSegments.remove(ts);
+        }
+        if(!toRemove.isEmpty()) {
+            regenerate();
         }
     }
 

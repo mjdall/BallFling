@@ -64,7 +64,7 @@ public class GameState extends View {
             physics.doPhysicsUpdate();
             ball.applyPhysics(physics);
             generator.doPhysicsOnObstacles(physics);
-            List<Vector2<Integer>> bounces = null; generator.getBounces(ball, physics);
+            List<Vector2<Integer>> bounces = generator.getBounces(ball, physics);
             if (bounces == null) {
                 // TODO Die
                 Log.d("202", "Collided with fatal object");
