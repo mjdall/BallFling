@@ -1,6 +1,7 @@
 package tracksegments;
 
 import android.graphics.Point;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,8 @@ public abstract class TrackBlueprint {
     protected Point fourthConstants;
     protected Point fifthConstants;
     protected Point sixthConstants;
+    protected Point seventhConstants;
+    protected Point eigthConstants;
 
     protected final int HIGH_PRIORITY = 10;
     protected final int MED_PRIORITY = 5;
@@ -39,13 +42,13 @@ public abstract class TrackBlueprint {
 
     abstract void setObs (); // method for designing how everything is layed out
 
-    final void addToObs (Obstacle obs, int priority) {
+    protected final void addToObs (Obstacle obs, int priority) {
         int i;
         for(i = 0; i < drawPriority.size(); i++) {
             if(drawPriority.get(i) > priority)
                 break;
         }
-
+        Log.d("202", String.format("Adding at %s", i));
         obstacles.add(i, obs);
         drawPriority.add(i, priority);
     }
@@ -56,6 +59,8 @@ public abstract class TrackBlueprint {
         fourthConstants = new Point(width / 4, height / 4);
         fifthConstants = new Point(width / 5, height / 5);
         sixthConstants = new Point(width / 6, height / 6);
+        seventhConstants = new Point(width / 7, height / 7);
+        eigthConstants = new Point(width / 8, height / 8);
     }
 
     public Obstacle pop (double yPos) {

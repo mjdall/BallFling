@@ -10,7 +10,7 @@ public class WaterBridge extends TrackBlueprint {
     private boolean walls;
 
     public WaterBridge (Point screenDims) {
-        super(screenDims, 2000, true);
+        super(screenDims, 200, true);
         this.walls = true;
     }
 

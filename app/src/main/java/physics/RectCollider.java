@@ -7,15 +7,15 @@ import name.small.ballflinggame.Vector2;
 
 public class RectCollider implements Collider {
 
-    private Vector2<Double> tl, tr, bl, br;
+    protected Vector2<Double> tl, tr, bl, br;
 
-    private static double getDistSqr(Vector2<Double> p1, Vector2<Double> p2) {
+    protected static double getDistSqr(Vector2<Double> p1, Vector2<Double> p2) {
         double dX = p1.x - p2.x;
         double dY = p1.y - p2.y;
         return dX*dX + dY*dY;
     }
 
-    public RectCollider(double x, double y, double w, double h) {
+    public RectCollider (double x, double y, double w, double h) {
         /*
         if(w <= 0 || h <= 0)
             throw new IllegalArgumentException("Dimensions must be >= 0");
@@ -91,7 +91,7 @@ public class RectCollider implements Collider {
         return m*x + c;
     }
 
-    private Vector2<Double> findCollisionPoint(Vector2<Double> pos, Vector2<Double> vel) {
+    protected Vector2<Double> findCollisionPoint(Vector2<Double> pos, Vector2<Double> vel) {
 
         double m = vel.y/vel.x;
         double c = (-m*pos.x)+pos.y;
