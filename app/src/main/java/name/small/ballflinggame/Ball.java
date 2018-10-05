@@ -3,7 +3,8 @@ package name.small.ballflinggame;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
+
+import physics.PhysicsState;
 
 public class Ball extends GameObject {
 

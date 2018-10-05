@@ -1,9 +1,12 @@
-package name.small.ballflinggame;
+package physics;
 
 import android.graphics.Point;
 import android.util.Log;
 
 import java.util.List;
+
+import name.small.ballflinggame.Ball;
+import name.small.ballflinggame.Vector2;
 
 public class PhysicsState {
     public final static int BOUNCE_VERTICAL = 1;
@@ -74,7 +77,7 @@ public class PhysicsState {
     }
 
     public Vector2<Double> ballUpdatePos(Ball ball) {
-        Vector2<Double> pos = ball.pos;
+        Vector2<Double> pos = ball.getPos();
         pos.x += vel.x;
         distanceTravelled += (-vel.y);
 

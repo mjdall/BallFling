@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeScreen">
+        <activity android:name="homescreen.HomeScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +24,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".HighScores"
+            android:name="highscores.HighScores"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="HighScores"
             android:theme="@style/AppTheme"

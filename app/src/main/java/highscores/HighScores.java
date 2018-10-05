@@ -1,4 +1,4 @@
-package name.small.ballflinggame;
+package highscores;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Random;
+
+import highscores.SoccerMumName;
+import highscores.SoccerMumNameGeneratorGoodnessXD;
+import name.small.ballflinggame.R;
 
 public class HighScores extends AppCompatActivity {
     private SoccerMumNameGeneratorGoodnessXD getNamesPl0x;
@@ -48,9 +52,9 @@ public class HighScores extends AppCompatActivity {
                      score += rand.nextInt(5000);
                      newName.setScore(score);
                      highscores.add(newName);
-                     highscore_labels[i].setText((CharSequence) newName.toString());
+                     highscore_labels[i].setText(newName.toString());
                 } catch (Exception e){
-                    highscore_labels[i].setText((CharSequence) "***");
+                    highscore_labels[i].setText("***");
                 }
 
             }

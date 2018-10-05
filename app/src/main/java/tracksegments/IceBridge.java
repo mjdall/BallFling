@@ -1,6 +1,8 @@
-package name.small.ballflinggame;
+package tracksegments;
 
 import android.graphics.Point;
+
+import obstacles.Ice;
 
 public class IceBridge extends WaterBridge {
 

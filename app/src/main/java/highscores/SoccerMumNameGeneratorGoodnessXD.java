@@ -1,7 +1,9 @@
-package name.small.ballflinggame;
+package highscores;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import highscores.SoccerMumName;
 
 public class SoccerMumNameGeneratorGoodnessXD {
     private String[] firstnames;

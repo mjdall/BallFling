@@ -1,8 +1,11 @@
-package name.small.ballflinggame;
+package tracksegments;
 
 import android.graphics.Point;
 
 import java.util.Random;
+
+import obstacles.Obstacle;
+import obstacles.Water;
 
 public class BrokenBridge extends WaterBridge {
 

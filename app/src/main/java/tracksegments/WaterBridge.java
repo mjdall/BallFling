@@ -1,6 +1,9 @@
-package name.small.ballflinggame;
+package tracksegments;
 
 import android.graphics.Point;
+
+import obstacles.Wall;
+import obstacles.Water;
 
 public class WaterBridge extends TrackBlueprint {
     protected final int wallWidth = 50;

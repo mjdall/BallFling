@@ -1,11 +1,13 @@
-package name.small.ballflinggame;
+package tracksegments;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import name.small.ballflinggame.GameObject;
+import obstacles.Obstacle;
+import physics.PhysicsState;
 
 public class TrackSegment extends GameObject {
     private ArrayList<Obstacle> obstacles;

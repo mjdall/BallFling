@@ -1,9 +1,12 @@
-package name.small.ballflinggame;
+package obstacles;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.util.Log;
+
+import name.small.ballflinggame.Vector2;
+import obstacles.RectObstacle;
 
 public class OutOfBoundsObstacle extends RectObstacle {
 

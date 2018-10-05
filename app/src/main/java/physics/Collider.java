@@ -1,4 +1,7 @@
-package name.small.ballflinggame;
+package physics;
+
+import name.small.ballflinggame.Ball;
+import name.small.ballflinggame.Vector2;
 
 public interface Collider {
 

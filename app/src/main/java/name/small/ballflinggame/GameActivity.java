@@ -20,6 +20,8 @@ public class GameActivity extends AppCompatActivity {
     private GestureDetectorCompat gestureDetector;
     private GameState gameState;
 
+
+
     GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
@@ -29,6 +31,8 @@ public class GameActivity extends AppCompatActivity {
             gameState.invalidate();
             return super.onFling(e1, e2, velocityX, velocityY);
         }
+
+
     };
 
     @Override

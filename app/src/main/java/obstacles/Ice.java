@@ -1,9 +1,11 @@
-package name.small.ballflinggame;
+package obstacles;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+
+import physics.StatusAffect;
 
 public class Ice extends RectObstacle {
     private Paint icePaint;

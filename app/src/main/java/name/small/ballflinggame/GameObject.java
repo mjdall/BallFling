@@ -2,6 +2,8 @@ package name.small.ballflinggame;
 
 import android.graphics.Canvas;
 
+import physics.PhysicsState;
+
 
 public abstract class GameObject {
 

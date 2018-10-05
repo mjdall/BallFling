@@ -1,9 +1,13 @@
-package name.small.ballflinggame;
+package homescreen;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import highscores.HighScores;
+import name.small.ballflinggame.GameActivity;
+import name.small.ballflinggame.R;
 
 public class HomeScreen extends AppCompatActivity {
 

@@ -1,8 +1,13 @@
-package name.small.ballflinggame;
+package obstacles;
 
-import android.graphics.Canvas;
 import android.graphics.Point;
-import android.util.Log;
+
+import name.small.ballflinggame.Ball;
+import physics.Collider;
+import name.small.ballflinggame.GameObject;
+import physics.PhysicsState;
+import physics.StatusAffect;
+import name.small.ballflinggame.Vector2;
 
 public abstract class Obstacle extends GameObject {
 

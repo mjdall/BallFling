@@ -1,13 +1,12 @@
-package name.small.ballflinggame;
+package obstacles;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.support.constraint.solver.widgets.Rectangle;
-import android.util.Log;
 
-import java.util.Random;
+import physics.RectCollider;
+import name.small.ballflinggame.Vector2;
 
 public abstract class RectObstacle extends Obstacle {
     private Paint p;

@@ -1,6 +1,9 @@
-package name.small.ballflinggame;
+package physics;
 
 import android.util.Log;
+
+import name.small.ballflinggame.Ball;
+import name.small.ballflinggame.Vector2;
 
 public class RectCollider implements Collider {
 

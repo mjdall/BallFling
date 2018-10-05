@@ -5,6 +5,9 @@ import android.graphics.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
+import obstacles.Obstacle;
+import physics.PhysicsState;
+
 public abstract class TrackPiece extends GameObject {
     protected ArrayList<Obstacle> toDraw;
     protected ArrayList<TrackPiece> canGenerate;

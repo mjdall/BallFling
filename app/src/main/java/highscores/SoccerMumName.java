@@ -1,4 +1,4 @@
-package name.small.ballflinggame;
+package highscores;
 
 public class SoccerMumName {
     private String firstname;

@@ -8,6 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import obstacles.Obstacle;
+import obstacles.OutOfBoundsObstacle;
+import physics.Collider;
+import physics.PhysicsState;
+import physics.StatusAffect;
+import tracksegments.BrokenBridge;
+import tracksegments.IceBridge;
+import tracksegments.TrackBlueprint;
+import tracksegments.TrackSegment;
+import tracksegments.WaterBridge;
+
 public class TrackGenerator {
     private final int offScreenHeightGen;
     private final int totalToGen;
@@ -135,12 +146,9 @@ public class TrackGenerator {
     }
 
     private void setBlueprints () {
-        WaterBridge wb = new WaterBridge(screenDims);
-        BrokenBridge bb = new BrokenBridge(screenDims);
-        IceBridge ib = new IceBridge(screenDims);
-        blueprints.add(wb);
-        blueprints.add(bb);
-        blueprints.add(ib);
+        blueprints.add(new WaterBridge(screenDims));
+        blueprints.add(new BrokenBridge(screenDims));
+        blueprints.add(new IceBridge(screenDims));
     }
 
     private void generateBaseSpawn () {

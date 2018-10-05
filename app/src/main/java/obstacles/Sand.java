@@ -1,22 +1,24 @@
-package name.small.ballflinggame;
+package obstacles;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
-public class LongGrass extends RectObstacle {
-    private Paint grassPaint;
+import physics.StatusAffect;
 
-    public LongGrass (double xPos, double yPos, Point obstacleDims) {
+public class Sand extends RectObstacle {
+    private Paint sandPaint;
+
+    public Sand (double xPos, double yPos, Point obstacleDims) {
         super(xPos, yPos, obstacleDims, false, Color.YELLOW);
-        grassPaint = new Paint();
-        grassPaint.setColor(0xFF007F00);
+        sandPaint = new Paint();
+        sandPaint.setColor(Color.YELLOW);
     }
 
     @Override
     public StatusAffect getStatusAffect() {
-        return StatusAffect.LONG_GRASS;
+        return StatusAffect.SAND;
     }
 
     @Override
@@ -24,7 +26,7 @@ public class LongGrass extends RectObstacle {
         double x = pos.x;
         double y = pos.y;
         if (y + obstacleDims.y < 0) return;
-        c.drawRect((float) x, (float) y, (float) x + obstacleDims.x, (float) y + obstacleDims.y, grassPaint);
+        c.drawRect((float) x, (float) y, (float) x + obstacleDims.x, (float) y + obstacleDims.y, sandPaint);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package name.small.ballflinggame;
+package physics;
 
 public enum StatusAffect {
     ICE,

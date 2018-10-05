@@ -1,12 +1,13 @@
-package name.small.ballflinggame;
+package tracksegments;
 
 import android.graphics.Point;
-import android.util.Log;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-abstract class TrackBlueprint {
+import obstacles.Obstacle;
+import name.small.ballflinggame.Vector2;
+
+public abstract class TrackBlueprint {
     private ArrayList<Obstacle> obstacles;
     private ArrayList<Integer> drawPriority; // Highest value drawn on top
     protected int height;
@@ -64,7 +65,7 @@ abstract class TrackBlueprint {
 
         if (obstacles.size() == 0) { obstacles = new ArrayList<>(); setObs(); return null; }
         Obstacle o = obstacles.get(0);
-        o.updatePos(new Vector2<>(o.pos.x, o.pos.y + yPos));
+        o.updatePos(new Vector2<>(o.getPos().x, o.getPos().y + yPos));
         obstacles.remove(0);
         drawPriority.remove(0);
         return o;

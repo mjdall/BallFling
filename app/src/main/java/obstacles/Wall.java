@@ -1,4 +1,4 @@
-package name.small.ballflinggame;
+package obstacles;
 
 import android.graphics.Color;
 import android.graphics.Point;
