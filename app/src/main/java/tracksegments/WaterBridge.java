@@ -10,12 +10,12 @@ public class WaterBridge extends TrackBlueprint {
     private boolean walls;
 
     public WaterBridge (Point screenDims) {
-        super(screenDims, 2000);
+        super(screenDims, 2000, true);
         this.walls = true;
     }
 
-    protected WaterBridge (Point screenDims, boolean walls) {
-        super(screenDims, 2000);
+    protected WaterBridge (Point screenDims, boolean walls, boolean allowInitialSpawn) {
+        super(screenDims, 2000, allowInitialSpawn);
         this.walls = walls;
     }
 

@@ -7,7 +7,7 @@ import obstacles.Ice;
 public class IceBridge extends WaterBridge {
 
     public IceBridge (Point screenDims) {
-        super(screenDims, false);
+        super(screenDims, false, true);
     }
 
     @Override

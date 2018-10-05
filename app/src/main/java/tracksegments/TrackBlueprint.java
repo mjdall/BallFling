@@ -25,10 +25,13 @@ public abstract class TrackBlueprint {
 
     private boolean obsSet;
 
-    public TrackBlueprint (Point screenDimensions, int height) {
+    private boolean allowInitialSpawn;
+
+    public TrackBlueprint (Point screenDimensions, int height, boolean allowInitialSpawn) {
         this.obstacles = new ArrayList<>();
         this.width = screenDimensions.x;
         this.height = height;
+        this.allowInitialSpawn = allowInitialSpawn;
         drawPriority = new ArrayList<>();
         setConsts();
         obsSet = false;
@@ -73,5 +76,9 @@ public abstract class TrackBlueprint {
 
     public int getHeight () {
         return height;
+    }
+
+    public boolean allowInitialSpawn() {
+        return allowInitialSpawn;
     }
 }

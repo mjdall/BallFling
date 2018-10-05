@@ -10,7 +10,7 @@ import obstacles.Water;
 public class BrokenBridge extends WaterBridge {
 
     public BrokenBridge (Point screenDims) {
-        super(screenDims, true);
+        super(screenDims, true, true);
     }
 
     @Override

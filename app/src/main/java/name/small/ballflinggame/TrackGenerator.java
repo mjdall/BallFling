@@ -14,6 +14,8 @@ import physics.Collider;
 import physics.PhysicsState;
 import physics.StatusAffect;
 import tracksegments.BrokenBridge;
+import tracksegments.CastleKeep;
+import tracksegments.CastleWalls;
 import tracksegments.IceBridge;
 import tracksegments.TrackBlueprint;
 import tracksegments.TrackSegment;
@@ -149,6 +151,7 @@ public class TrackGenerator {
         blueprints.add(new WaterBridge(screenDims));
         blueprints.add(new BrokenBridge(screenDims));
         blueprints.add(new IceBridge(screenDims));
+        blueprints.add(new CastleKeep(screenDims));
     }
 
     private void generateBaseSpawn () {
@@ -157,6 +160,12 @@ public class TrackGenerator {
         Log.d("202", String.format("Total to gen: %s, starting at: %s", Integer.toString(totalToGen), Double.toString(yPosGen)));
         while (heightGenerated <= totalToGen) {
             TrackBlueprint tb = blueprints.get(rand.nextInt(blueprints.size()));
+
+            if(yPosGen >= 0 && !tb.allowInitialSpawn()) {
+                // Don't create obstacle that could cause bad spawn position
+                continue;
+            }
+
             yPosGen -= tb.getHeight();
             Log.d("202", String.format("Spawning at: %s", yPosGen));
             TrackSegment ts = new TrackSegment(0.0, yPosGen, screenDims, tb);
