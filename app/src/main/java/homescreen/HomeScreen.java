@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import highscores.HighScores;
+import highscores.HighScoresActivity;
 import name.small.ballflinggame.GameActivity;
 import name.small.ballflinggame.R;
 
@@ -33,7 +33,7 @@ public class HomeScreen extends AppCompatActivity {
 
     public void goToHighscores (View v) {
         try {
-            Intent myIntent = new Intent(this, HighScores.class);
+            Intent myIntent = new Intent(this, HighScoresActivity.class);
             startActivity(myIntent);
         } catch (Exception e) {
 

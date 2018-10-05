@@ -24,7 +24,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="highscores.HighScores"
+            android:name="highscores.HighScoresActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="HighScores"
             android:theme="@style/AppTheme"

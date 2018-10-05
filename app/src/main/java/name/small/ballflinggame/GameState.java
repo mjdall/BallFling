@@ -11,6 +11,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 
+import highscores.HighScoreManager;
 import physics.PhysicsState;
 
 public class GameState extends View {
@@ -86,6 +87,7 @@ public class GameState extends View {
                 Log.d("202", "Collided with fatal object");
                 Log.d("202", "Distance travelled: " + physics.getDistanceTravelled());
                 // TODO Update high score using distance travelled
+                HighScoreManager.addHighScore((int)physics.getDistanceTravelled());
                 die();
                 return;
             }
