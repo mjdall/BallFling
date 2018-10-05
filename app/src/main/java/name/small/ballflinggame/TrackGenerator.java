@@ -19,6 +19,7 @@ import tracksegments.CastleWalls;
 import tracksegments.FloodedIntersection;
 import tracksegments.IceBridge;
 import tracksegments.Labyrinth;
+import tracksegments.PinCastle;
 import tracksegments.RockyIce;
 import tracksegments.TrackBlueprint;
 import tracksegments.TrackSegment;
@@ -153,12 +154,13 @@ public class TrackGenerator {
 
     private void setBlueprints () {
         blueprints.add(new Labyrinth(screenDims));
-        //blueprints.add(new WaterBridge(screenDims));
-        //blueprints.add(new BrokenBridge(screenDims));
-        //blueprints.add(new CastleKeep(screenDims));
-        //blueprints.add(new RockyIce(screenDims));
-        //blueprints.add(new VeryRockyIce(screenDims));
-        //blueprints.add(new FloodedIntersection(screenDims));
+        blueprints.add(new WaterBridge(screenDims));
+        blueprints.add(new BrokenBridge(screenDims));
+        blueprints.add(new CastleKeep(screenDims));
+        blueprints.add(new RockyIce(screenDims));
+        blueprints.add(new VeryRockyIce(screenDims));
+        blueprints.add(new FloodedIntersection(screenDims));
+        blueprints.add(new PinCastle(screenDims));
     }
 
     private void generateBaseSpawn () {

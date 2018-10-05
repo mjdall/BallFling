@@ -21,8 +21,8 @@ public abstract class TrackBlueprint {
     protected Point seventhConstants;
     protected Point eigthConstants;
 
-    protected final int HIGH_PRIORITY = 10;
-    protected final int MED_PRIORITY = 5;
+    protected final int HIGH_PRIORITY = 100;
+    protected final int MED_PRIORITY = 50;
     protected final int LOW_PRIORITY = 0;
     protected final int MIN_PRIORITY = Integer.MIN_VALUE; // Only used for background graphics
 

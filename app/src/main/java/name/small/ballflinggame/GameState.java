@@ -52,8 +52,8 @@ public class GameState extends View {
     private void init() {
         DisplayMetrics metrics = parentC.getResources().getDisplayMetrics();
         this.screenDims = new Point(metrics.widthPixels, metrics.heightPixels);
-        ball = new Ball( screenDims.x / 2, screenDims.y * 0.85, 40, Color.WHITE);
-        physics = new PhysicsState(20.0f, 30.0f, 0.993, 0.6, 0.001, screenDims);
+        ball = new Ball( screenDims.x / 2, screenDims.y * 0.85, screenDims.x * 0.03, Color.WHITE);
+        physics = new PhysicsState(20.0f, 30.0f, 0.993, 0.9, 0.001, screenDims);
         generator = new TrackGenerator(screenDims);
     }
 

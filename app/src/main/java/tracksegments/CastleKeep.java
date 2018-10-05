@@ -7,7 +7,7 @@ import obstacles.Wall;
 
 public class CastleKeep extends CastleWalls {
     public CastleKeep(Point screenDimensions) {
-        super(screenDimensions, false);
+        super(screenDimensions, false, true);
     }
 
     @Override
