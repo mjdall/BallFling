@@ -16,6 +16,7 @@ import physics.StatusAffect;
 import tracksegments.BrokenBridge;
 import tracksegments.CastleKeep;
 import tracksegments.CastleWalls;
+import tracksegments.Dungeon;
 import tracksegments.FloodedIntersection;
 import tracksegments.IceBridge;
 import tracksegments.LabFive;
@@ -156,17 +157,18 @@ public class TrackGenerator {
     }
 
     private void setBlueprints () {
-        blueprints.add(new Labyrinth(screenDims));
+//        blueprints.add(new Labyrinth(screenDims));
         blueprints.add(new WaterBridge(screenDims));
-        blueprints.add(new BrokenBridge(screenDims));
-        blueprints.add(new CastleKeep(screenDims));
-        blueprints.add(new RockyIce(screenDims));
-        blueprints.add(new VeryRockyIce(screenDims));
-        blueprints.add(new FloodedIntersection(screenDims));
-        blueprints.add(new PinCastle(screenDims));
-        blueprints.add(new LabThree(screenDims));
-        blueprints.add(new LabFive(screenDims));
-        blueprints.add(new Volcanic(screenDims));
+        blueprints.add(new Dungeon(screenDims));
+//        blueprints.add(new BrokenBridge(screenDims));
+//        blueprints.add(new CastleKeep(screenDims));
+//        blueprints.add(new RockyIce(screenDims));
+//        blueprints.add(new VeryRockyIce(screenDims));
+//        blueprints.add(new FloodedIntersection(screenDims));
+//        blueprints.add(new PinCastle(screenDims));
+//        blueprints.add(new LabThree(screenDims));
+//        blueprints.add(new LabFive(screenDims));
+//        blueprints.add(new Volcanic(screenDims));
     }
 
     private void generateBaseSpawn () {
