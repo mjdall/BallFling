@@ -18,6 +18,7 @@ import tracksegments.CastleKeep;
 import tracksegments.CastleWalls;
 import tracksegments.FloodedIntersection;
 import tracksegments.IceBridge;
+import tracksegments.LabThree;
 import tracksegments.Labyrinth;
 import tracksegments.PinCastle;
 import tracksegments.RockyIce;
@@ -41,12 +42,12 @@ public class TrackGenerator {
         this.screenDims = screenDims;
         this.trackSegments = new ArrayList<>();
         this.heightGenerated = 0;
-        this.offScreenHeightGen = screenDims.y * 2;
+        this.offScreenHeightGen = screenDims.y * 3;
         this.totalToGen = screenDims.y + offScreenHeightGen * 2;
         blueprints = new ArrayList<>();
         setBlueprints();
         generateBaseSpawn();
-        outOfBoundsObstacle = new OutOfBoundsObstacle(screenDims, screenDims.y * 1.5);
+        outOfBoundsObstacle = new OutOfBoundsObstacle(screenDims, screenDims.y * 2.5);
     }
 
     public void doPhysicsOnObstacles (PhysicsState physics) {
@@ -153,14 +154,15 @@ public class TrackGenerator {
     }
 
     private void setBlueprints () {
-        blueprints.add(new Labyrinth(screenDims));
+//        blueprints.add(new Labyrinth(screenDims));
         blueprints.add(new WaterBridge(screenDims));
-        blueprints.add(new BrokenBridge(screenDims));
-        blueprints.add(new CastleKeep(screenDims));
-        blueprints.add(new RockyIce(screenDims));
-        blueprints.add(new VeryRockyIce(screenDims));
-        blueprints.add(new FloodedIntersection(screenDims));
-        blueprints.add(new PinCastle(screenDims));
+//        blueprints.add(new BrokenBridge(screenDims));
+//        blueprints.add(new CastleKeep(screenDims));
+//        blueprints.add(new RockyIce(screenDims));
+//        blueprints.add(new VeryRockyIce(screenDims));
+//        blueprints.add(new FloodedIntersection(screenDims));
+//        blueprints.add(new PinCastle(screenDims));
+        blueprints.add(new LabThree(screenDims));
     }
 
     private void generateBaseSpawn () {
