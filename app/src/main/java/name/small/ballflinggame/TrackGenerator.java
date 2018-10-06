@@ -22,7 +22,6 @@ import tracksegments.IceBridge;
 import tracksegments.LabFive;
 import tracksegments.LabThree;
 import tracksegments.Labyrinth;
-import tracksegments.OceanPlaza;
 import tracksegments.PinCastle;
 import tracksegments.RockyIce;
 import tracksegments.TrackBlueprint;
@@ -30,7 +29,6 @@ import tracksegments.TrackSegment;
 import tracksegments.VeryRockyIce;
 import tracksegments.Volcanic;
 import tracksegments.WaterBridge;
-import tracksegments.ZigZag;
 
 public class TrackGenerator {
     private final int offScreenHeightGen;

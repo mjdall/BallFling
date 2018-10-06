@@ -9,7 +9,7 @@ import physics.RectCollider;
 import name.small.ballflinggame.Vector2;
 
 public abstract class RectObstacle extends Obstacle {
-    private Paint p;
+    protected Paint p;
     private Paint shadow;
 
 

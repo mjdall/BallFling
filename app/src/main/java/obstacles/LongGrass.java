@@ -16,6 +16,12 @@ public class LongGrass extends RectObstacle {
         grassPaint.setColor(0xFF007F00);
     }
 
+    public LongGrass (double xPos, double yPos, Point obstacleDims, int colour) {
+        super(xPos, yPos, obstacleDims, false, Color.YELLOW);
+        grassPaint = new Paint();
+        grassPaint.setColor(colour);
+    }
+
     @Override
     public StatusAffect getStatusAffect() {
         return StatusAffect.LONG_GRASS;

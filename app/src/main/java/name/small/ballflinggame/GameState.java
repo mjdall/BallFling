@@ -20,6 +20,7 @@ public class GameState extends View {
     private Context parentC;
     private Point screenDims;
     private TrackGenerator generator;
+    int canvasColour = 101902;
     // TODO: Create a list of screen objects here
     // TODO: Create draw methods for screen objects
     // TODO: Implement bouncing off of the objects rendered on the screen
@@ -77,7 +78,7 @@ public class GameState extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawColor(Color.GREEN);
+        canvas.drawColor(canvasColour | 0xFF000000);
         if(!physics.isStopped()) {
             physics.doPhysicsUpdate();
             ball.applyPhysics(physics);

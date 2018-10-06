@@ -16,6 +16,12 @@ public class Ice extends RectObstacle {
         icePaint.setColor(0xFF7FFFFF);
     }
 
+    public Ice (double xPos, double yPos, Point obstacleDims, int colour) {
+        super(xPos, yPos, obstacleDims, false, Color.YELLOW);
+        icePaint = new Paint();
+        icePaint.setColor(colour);
+    }
+
     @Override
     public StatusAffect getStatusAffect() {
         return StatusAffect.ICE;

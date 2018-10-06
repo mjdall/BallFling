@@ -12,7 +12,7 @@ public class Water extends RectObstacle {
         // Translucent surface with base shadow colour
         super(xPos, yPos, obstacleDims, true, 0);
         innerPaint = new Paint();
-        innerPaint.setColor(Color.CYAN);
+        innerPaint.setColor(4100812 | 0xFF000000);
     }
 
     protected Water(double xPos, double yPos, Point obstacleDims, int colour) {
