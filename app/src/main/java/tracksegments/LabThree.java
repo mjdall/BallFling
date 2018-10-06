@@ -35,7 +35,7 @@ public class LabThree extends TrackBlueprint {
 		addToObs(z1534379598, -1534379598);
 		Obstacle z1942644431 = new Wall(8 * gridSize, 1 * gridSize, new Point(1 * gridSize, 15 * gridSize));
 		addToObs(z1942644431, 1942644431);
-		Obstacle z535294921 = new Wall(6 * gridSize, 3 * gridSize, new Point(1 * gridSize, 9 * gridSize));
+		Obstacle z535294921 = new Water(6 * gridSize, 3 * gridSize, new Point(1 * gridSize, 9 * gridSize));
 		addToObs(z535294921, 535294921);
 		Obstacle z185074812 = new Wall(0 * gridSize, 0 * gridSize, new Point(3 * gridSize, 1 * gridSize));
 		addToObs(z185074812, -185074812);
