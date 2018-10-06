@@ -135,6 +135,9 @@ public class PhysicsState {
                     getAccelerometerSpeedUpActive = 10.0;
                     maxAccl = 100.0;
                     break;
+                case VOLCANIC:
+                    activeFriction = 0.94;
+                    break;
             }
         }
     }

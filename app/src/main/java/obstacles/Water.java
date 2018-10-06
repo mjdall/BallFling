@@ -15,6 +15,12 @@ public class Water extends RectObstacle {
         innerPaint.setColor(Color.CYAN);
     }
 
+    protected Water(double xPos, double yPos, Point obstacleDims, int colour) {
+        super(xPos, yPos, obstacleDims, true, 0);
+        innerPaint = new Paint();
+        innerPaint.setColor(colour);
+    }
+
     @Override
     public void drawShadow(Canvas c) {
         double x = pos.x;

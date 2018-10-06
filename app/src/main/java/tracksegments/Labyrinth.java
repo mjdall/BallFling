@@ -10,7 +10,7 @@ import obstacles.Water;
 public class Labyrinth extends  TrackBlueprint {
     protected int wallWidth;
     public Labyrinth (Point screenDims) {
-        super(screenDims, screenDims.y, true);
+        super(screenDims, screenDims.y, false);
     }
 
     @Override
