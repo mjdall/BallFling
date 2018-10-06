@@ -22,6 +22,7 @@ import tracksegments.IceBridge;
 import tracksegments.LabFive;
 import tracksegments.LabThree;
 import tracksegments.Labyrinth;
+import tracksegments.OceanPlaza;
 import tracksegments.PinCastle;
 import tracksegments.RockyIce;
 import tracksegments.TrackBlueprint;
@@ -29,6 +30,7 @@ import tracksegments.TrackSegment;
 import tracksegments.VeryRockyIce;
 import tracksegments.Volcanic;
 import tracksegments.WaterBridge;
+import tracksegments.ZigZag;
 
 public class TrackGenerator {
     private final int offScreenHeightGen;
@@ -159,7 +161,9 @@ public class TrackGenerator {
     private void setBlueprints () {
 //        blueprints.add(new Labyrinth(screenDims));
         blueprints.add(new WaterBridge(screenDims));
-        blueprints.add(new Dungeon(screenDims));
+//        blueprints.add(new Dungeon(screenDims));
+        blueprints.add(new OceanPlaza(screenDims));
+//        blueprints.add(new ZigZag(screenDims));
 //        blueprints.add(new BrokenBridge(screenDims));
 //        blueprints.add(new CastleKeep(screenDims));
 //        blueprints.add(new RockyIce(screenDims));
