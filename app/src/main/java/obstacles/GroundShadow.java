@@ -14,6 +14,10 @@ public class GroundShadow extends RectObstacle {
         super(xPos, yPos, obstacleDims, false, 101902 | 0xFF000000);
     }
 
+    public GroundShadow (double xPos, double yPos, Point obstacleDims, int colour) {
+        super(xPos, yPos, obstacleDims, false, colour | 0xFF000000);
+    }
+
     @Override
     public Collider.CollisionType checkCollision(Ball b) {
         return Collider.CollisionType.None;
