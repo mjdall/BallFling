@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
-        android:text="Created By:\nDaniel\nMorgan"
+        android:text="Created By:\nDaniel Stokes\nMorgan Dally"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="24sp"
