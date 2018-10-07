@@ -15,7 +15,6 @@ import physics.PhysicsState;
 import physics.StatusAffect;
 import tracksegments.*;
 
-
 public class TrackGenerator {
     private final int offScreenHeightGen;
     private final int totalToGen;
@@ -152,7 +151,7 @@ public class TrackGenerator {
         blueprints.add(new CastleKeep(screenDims));
         blueprints.add(new RockyIce(screenDims));
         blueprints.add(new VeryRockyIce(screenDims));
-        blueprints.add(new FloodedIntersection(screenDims));
+//        blueprints.add(new FloodedIntersection(screenDims));
         blueprints.add(new PinCastle(screenDims));
         blueprints.add(new LabThree(screenDims));
         blueprints.add(new LabFive(screenDims));
@@ -170,7 +169,7 @@ public class TrackGenerator {
         while (heightGenerated <= totalToGen) {
             TrackBlueprint tb = blueprints.get(rand.nextInt(blueprints.size()));
 
-            if(yPosGen >= screenDims.y * 0.85 && yPosGen - tb.getHeight() <= screenDims.y * 0.85 && !tb.allowInitialSpawn()) {
+            if(yPosGen >= 0 && !tb.allowInitialSpawn()) {
                 // Don't create obstacle that could cause bad spawn position
                 continue;
             }

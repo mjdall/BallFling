@@ -123,7 +123,7 @@ public class PhysicsState {
         for(StatusAffect statusAffect : statusAffects) {
             switch (statusAffect) {
                 case SAND:
-                    activeFriction = 0.7;
+                    activeFriction = 0.8;
                     getAccelerometerSpeedUpActive = 0.0;
                     break;
                 case LONG_GRASS:
@@ -131,7 +131,7 @@ public class PhysicsState {
                     getAccelerometerSpeedUpActive = 0.0;
                     break;
                 case ICE:
-                    activeFriction = 0.999;
+                    activeFriction = 0.998;
                     getAccelerometerSpeedUpActive = 5.0;
                     break;
                 case VOLCANIC:
