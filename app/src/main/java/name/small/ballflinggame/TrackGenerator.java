@@ -166,7 +166,7 @@ public class TrackGenerator {
         while (heightGenerated <= totalToGen) {
             TrackBlueprint tb = blueprints.get(rand.nextInt(blueprints.size()));
 
-            if(yPosGen >= 0 && !tb.allowInitialSpawn()) {
+            if(yPosGen >= screenDims.y * 0.85 && yPosGen - tb.getHeight() <= screenDims.y * 0.85 && !tb.allowInitialSpawn()) {
                 // Don't create obstacle that could cause bad spawn position
                 continue;
             }

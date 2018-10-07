@@ -49,8 +49,8 @@ public class LabFive extends TrackBlueprint {
 		addToObs(z492228233, 0);
 		Obstacle z112630952 = new Water(4 * gridSize, 11 * gridSize, new Point(1 * gridSize, 2 * gridSize));
 		addToObs(z112630952, -1);
-		Obstacle z772777458 = new SandStone(1 * gridSize, 14 * gridSize, new Point(1 * gridSize, 1 * gridSize));
-		addToObs(z772777458, 0);
+		Obstacle z772777458 = new Water(1 * gridSize, 14 * gridSize, new Point(1 * gridSize, 1 * gridSize));
+		addToObs(z772777458, -1);
 		Obstacle z366491869 = new SandStone(5 * gridSize, 9 * gridSize, new Point(3 * gridSize, 1 * gridSize));
 		addToObs(z366491869, 0);
 		Obstacle z777874870 = new SandStone(5 * gridSize, 7 * gridSize, new Point(1 * gridSize, 1 * gridSize));
@@ -69,8 +69,8 @@ public class LabFive extends TrackBlueprint {
 		addToObs(z610998204, 0);
 		Obstacle z2047329747 = new SandStone(3 * gridSize, 7 * gridSize, new Point(1 * gridSize, 1 * gridSize));
 		addToObs(z2047329747, 0);
-		Obstacle z648129395 = new SandStone(7 * gridSize, 14 * gridSize, new Point(1 * gridSize, 1 * gridSize));
-		addToObs(z648129395, 0);
+		Obstacle z648129395 = new Water(7 * gridSize, 14 * gridSize, new Point(1 * gridSize, 1 * gridSize));
+		addToObs(z648129395, -1);
 		Obstacle z1325895069 = new Water(7 * gridSize, 0 * gridSize, new Point(2 * gridSize, 1 * gridSize));
 		addToObs(z1325895069, -1);
 		Obstacle z94438448 = new SandStone(4 * gridSize, 14 * gridSize, new Point(1 * gridSize, 1 * gridSize));

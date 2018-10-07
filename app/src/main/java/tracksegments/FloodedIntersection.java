@@ -9,7 +9,7 @@ import obstacles.Water;
 public class FloodedIntersection extends TrackBlueprint {
 
     public FloodedIntersection (Point screenDims) {
-        super(screenDims, 1000, true);
+        super(screenDims, 1000, false);
     }
 
     protected void setObs () {
