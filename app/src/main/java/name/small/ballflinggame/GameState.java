@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import highscores.HighScoreManager;
 import physics.PhysicsState;
@@ -20,6 +21,7 @@ public class GameState extends View {
     private Context parentC;
     private Point screenDims;
     private TrackGenerator generator;
+    private TextView scoreDisplay;
     int canvasColour = 101902;
     // TODO: Create a list of screen objects here
     // TODO: Create draw methods for screen objects
@@ -95,6 +97,10 @@ public class GameState extends View {
             physics.doBounces(physicsAffects.bounces);
             physics.doStatusAffects(physicsAffects.statusAffects);
         }
+        if(scoreDisplay == null) {
+            scoreDisplay = ((View)getParent()).findViewById(R.id.scoreBox);
+        }
+        scoreDisplay.setText("Score: " + (int)physics.getDistanceTravelled());
         invalidate();
         generator.drawShadow(canvas);
         ball.drawShadow(canvas);
