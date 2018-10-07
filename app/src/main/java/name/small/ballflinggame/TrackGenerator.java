@@ -156,6 +156,10 @@ public class TrackGenerator {
         blueprints.add(new PinCastle(screenDims));
         blueprints.add(new LabThree(screenDims));
         blueprints.add(new LabFive(screenDims));
+        blueprints.add(new BraeLevel(screenDims));
+        blueprints.add(new IceBraeLevel(screenDims));
+//        blueprints.add(new LargeDungeon(screenDims));
+        blueprints.add(new LethalZigZag(screenDims));
 //        blueprints.add(new Volcanic(screenDims));
     }
 
