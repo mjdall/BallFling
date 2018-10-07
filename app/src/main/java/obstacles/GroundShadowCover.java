@@ -8,6 +8,10 @@ public class GroundShadowCover extends GroundShadow {
         super(xPos, yPos, obstacleDims);
     }
 
+    public GroundShadowCover (double xPos, double yPos, Point obstacleDims, int colour) {
+        super(xPos, yPos, obstacleDims, colour);
+    }
+
     @Override
     public void drawShadow (Canvas canvas) {
         double x = pos.x;
